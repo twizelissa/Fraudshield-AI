@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     let recordId = "temp-" + Math.random().toString(36).substring(2, 15);
     try {
       const record = await prisma.scamCheck.create({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: {
           inputText: inputText.trim(),
           selectedType: selectedType ?? null,
@@ -46,6 +45,7 @@ export async function POST(req: NextRequest) {
           confidenceLevel: analysis.confidence_level,
           sources: JSON.stringify(analysis.sources),
           disclaimer: analysis.disclaimer,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any,
       });
       recordId = record.id;

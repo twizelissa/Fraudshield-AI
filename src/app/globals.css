@@ -1,0 +1,264 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --color-navy: #030712;
+  --color-navy-dark: #010204;
+  --color-charcoal: #64748b;
+  --color-blue-brand: #00f2fe; /* Holographic Cyan */
+  --color-violet-brand: #d946ef; /* Cyber Violet */
+  --color-indigo-brand: #4f46e5; /* Neon Indigo */
+}
+
+/* Base resets */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #030712;
+  color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Futuristic Repeating Cyber-Grid */
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 242, 254, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 254, 0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Cyberpunk Mesh Glow Orbs */
+.hero-bg {
+  position: relative;
+  background-color: #030712;
+  overflow: hidden;
+}
+
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 5%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  right: -5%;
+  width: 45%;
+  height: 45%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.06) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark-mesh-bg {
+  position: relative;
+  background: #010204;
+  overflow: hidden;
+}
+
+.dark-mesh-bg::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 60%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Holographic Glassmorphic Card System */
+.glass-card {
+  background: rgba(11, 19, 41, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 242, 254, 0.12);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(0, 242, 254, 0.03),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 242, 254, 0.25);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(0, 242, 254, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Holographic Double-Border Micro Panel */
+.cyber-icon-panel {
+  background: rgba(11, 19, 41, 0.8);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  box-shadow: 
+    0 0 12px rgba(0, 242, 254, 0.15),
+    inset 0 0 6px rgba(0, 242, 254, 0.1);
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.cyber-icon-panel::before {
+  content: "";
+  position: absolute;
+  inset: -3.5px;
+  border: 1px solid rgba(217, 70, 239, 0.25);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.cyber-icon-panel:hover {
+  border-color: rgba(0, 242, 254, 0.6);
+  box-shadow: 
+    0 0 18px rgba(0, 242, 254, 0.35),
+    inset 0 0 8px rgba(0, 242, 254, 0.2);
+}
+
+.cyber-icon-panel:hover::before {
+  border-color: rgba(217, 70, 239, 0.5);
+}
+
+/* High-Contrast Interactive Hover Lift */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 70, 239, 0.4);
+  box-shadow: 
+    0 20px 30px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(217, 70, 239, 0.1);
+}
+
+/* Holographic Cyber Gradient Text */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 40%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-neon {
+  background: linear-gradient(135deg, #00f2fe 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* High-Tech Glowing Input */
+.saas-input {
+  background: rgba(1, 2, 4, 0.6);
+  border: 1px solid rgba(0, 242, 254, 0.15);
+  transition: all 0.2s ease;
+}
+
+.saas-input:focus {
+  border-color: #00f2fe;
+  box-shadow: 
+    0 0 15px rgba(0, 242, 254, 0.15),
+    inset 0 1px 1px rgba(0, 242, 254, 0.05);
+}
+
+/* Glowing Neon Cyan Button (.btn-cyber) */
+.btn-cyber {
+  background: linear-gradient(135deg, #00f2fe 0%, #4f46e5 100%);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #030712;
+}
+
+.btn-cyber:hover {
+  box-shadow: 
+    0 0 25px rgba(0, 242, 254, 0.5),
+    0 0 40px rgba(79, 70, 229, 0.2);
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #00f2fe 20%, #d946ef 100%);
+}
+
+.btn-cyber:active {
+  transform: translateY(0);
+}
+
+/* Radar Sweep Keyframe */
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.radar-sweep-effect {
+  animation: radar-sweep 6s linear infinite;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.975); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes holographic-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    filter: drop-shadow(0 0 1px rgba(0, 242, 254, 0.5));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    filter: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-flicker {
+  animation: holographic-flicker 5s linear infinite;
+}
+
+/* Custom Scrollbar for Terminals */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #010204;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 242, 254, 0.25);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2fe;
+  box-shadow: 0 0 10px #00f2fe;
+}

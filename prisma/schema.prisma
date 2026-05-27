@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+
+model ScamCheck {
+  id                 String     @id @default(cuid())
+  inputText          String
+  selectedType       String?
+  riskScore          Int
+  riskLevel          String
+  scamCategory       String
+  summary            String
+  warningSigns       String // JSON array string
+  recommendedActions String // JSON array string
+  confidenceLevel    String
+  disclaimer         String
+  sources            String?    // JSON array string of found web sources/references
+  createdAt          DateTime   @default(now())
+  feedback           Feedback[]
+}
+
+model ScamReport {
+  id              String   @id @default(cuid())
+  reportedMessage String
+  category        String?
+  country         String?
+  userEmail       String?
+  createdAt       DateTime @default(now())
+}
+
+model Feedback {
+  id          String    @id @default(cuid())
+  scamCheckId String
+  userRating  Int // 1 = helpful, 0 = not helpful
+  userComment String?
+  createdAt   DateTime  @default(now())
+  scamCheck   ScamCheck @relation(fields: [scamCheckId], references: [id], onDelete: Cascade)
+}

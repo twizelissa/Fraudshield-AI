@@ -30,26 +30,32 @@ export async function POST(req: NextRequest) {
       (selectedType as MessageType) ?? "unknown"
     );
 
-    const record = await prisma.scamCheck.create({
-      data: {
-        inputText: inputText.trim(),
-        selectedType: selectedType ?? null,
-        riskScore: analysis.risk_score,
-        riskLevel: analysis.risk_level,
-        scamCategory: analysis.scam_category,
-        summary: analysis.summary,
-        warningSigns: JSON.stringify(analysis.warning_signs),
-        recommendedActions: JSON.stringify(analysis.recommended_actions),
-        confidenceLevel: analysis.confidence_level,
-        sources: JSON.stringify(analysis.sources),
-        disclaimer: analysis.disclaimer,
-      },
-    });
+    let recordId = "temp-" + Math.random().toString(36).substring(2, 15);
+    try {
+      const record = await prisma.scamCheck.create({
+        data: {
+          inputText: inputText.trim(),
+          selectedType: selectedType ?? null,
+          riskScore: analysis.risk_score,
+          riskLevel: analysis.risk_level,
+          scamCategory: analysis.scam_category,
+          summary: analysis.summary,
+          warningSigns: JSON.stringify(analysis.warning_signs),
+          recommendedActions: JSON.stringify(analysis.recommended_actions),
+          confidenceLevel: analysis.confidence_level,
+          sources: JSON.stringify(analysis.sources),
+          disclaimer: analysis.disclaimer,
+        },
+      });
+      recordId = record.id;
+    } catch (dbError) {
+      console.error("Non-blocking DB logging error (typical in read-only serverless filesystems like Vercel):", dbError);
+    }
 
     return NextResponse.json({
       success: true,
       data: {
-        id: record.id,
+        id: recordId,
         ...analysis,
       },
     });

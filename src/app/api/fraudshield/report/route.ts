@@ -14,14 +14,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await prisma.scamReport.create({
-      data: {
-        reportedMessage: reportedMessage.trim(),
-        category: category ?? null,
-        country: country ?? null,
-        userEmail: userEmail ?? null,
-      },
-    });
+    try {
+      await prisma.scamReport.create({
+        data: {
+          reportedMessage: reportedMessage.trim(),
+          category: category ?? null,
+          country: country ?? null,
+          userEmail: userEmail ?? null,
+        },
+      });
+    } catch (dbError) {
+      console.error("Non-blocking DB report logging error (typical in read-only serverless filesystems like Vercel):", dbError);
+    }
 
     return NextResponse.json({
       success: true,

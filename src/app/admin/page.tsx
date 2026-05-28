@@ -96,14 +96,11 @@ export default function AdminPage() {
     setError(null);
     try {
       const activeKey = keyOverride !== undefined ? keyOverride : adminKey;
-      const isUserAdmin = !!activeKey;
 
       const qParams = new URLSearchParams();
-      // Only allow query filtering if Admin session is active
-      if (isUserAdmin) {
-        if (searchVal.trim()) qParams.append("q", searchVal.trim());
-        if (catVal) qParams.append("category", catVal);
-      }
+      if (searchVal.trim()) qParams.append("q", searchVal.trim());
+      if (catVal) qParams.append("category", catVal);
+      if (activeKey) qParams.append("admin_key", activeKey);
       
       const headers: Record<string, string> = {};
       if (activeKey) {
@@ -136,22 +133,18 @@ export default function AdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Watch for category selection changes (Trigger auto-reload only if Admin is unlocked)
+  // Watch for category selection changes (Trigger auto-reload for both guest and admin)
   useEffect(() => {
-    if (isAdmin) {
-      const timer = setTimeout(() => {
-        fetchReports(search, category);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      fetchReports(search, category);
+    }, 0);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isAdmin) {
-      fetchReports(search, category);
-    }
+    fetchReports(search, category);
   };
 
   const handleDecrypt = (e: React.FormEvent) => {
@@ -205,7 +198,15 @@ export default function AdminPage() {
 
   const redactEmail = (email: string | null) => {
     if (!email) return "Anonymous Submitter";
-    return email; // Already securely redacted by complaints API for guests!
+    if (isAdmin) return email;
+    if (email.includes("***")) return email;
+    const parts = email.split("@");
+    if (parts.length !== 2) return "Redacted Operator";
+    const [username, domain] = parts;
+    if (username.length <= 2) {
+      return `${username}***@${domain}`;
+    }
+    return `${username.slice(0, 2)}***@${domain}`;
   };
 
   const handleCopyPayload = async (text: string, id: string) => {
@@ -270,79 +271,75 @@ export default function AdminPage() {
           </p>
         </div>
 
-        {/* Telemetry Metrics Panel Grid (ONLY VISIBLE IN SECURE ADMIN MODE) */}
-        {isAdmin && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-scale-in">
-            <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-              <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">threat signals</div>
-              <div className="text-2xl font-bold text-white tracking-wider">{totalSignals}</div>
-              <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Indexed logs</div>
-            </div>
-            <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-              <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">risk vector profiles</div>
-              <div className="text-2xl font-bold text-violet-brand tracking-wider">{categoriesPresent}</div>
-              <div className="text-[9px] text-violet-brand/50 mt-1 uppercase font-bold tracking-wider">Categories matched</div>
-            </div>
-            <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-              <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">global focal zones</div>
-              <div className="text-2xl font-bold text-blue-brand tracking-wider">{countriesPresent}</div>
-              <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Targeted Geolocations</div>
-            </div>
-            <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-              <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">engine link state</div>
-              <div className="text-2xl font-bold text-emerald-400 tracking-wider animate-pulse uppercase text-sm sm:text-base pt-1">INTEGRITY OK</div>
-              <div className="text-[9px] text-emerald-500/50 mt-1 uppercase font-bold tracking-wider">AI Synced live</div>
-            </div>
+        {/* Telemetry Metrics Panel Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-scale-in">
+          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
+            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">threat signals</div>
+            <div className="text-2xl font-bold text-white tracking-wider">{totalSignals}</div>
+            <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Indexed logs</div>
           </div>
-        )}
+          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
+            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">risk vector profiles</div>
+            <div className="text-2xl font-bold text-violet-brand tracking-wider">{categoriesPresent}</div>
+            <div className="text-[9px] text-violet-brand/50 mt-1 uppercase font-bold tracking-wider">Categories matched</div>
+          </div>
+          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
+            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">global focal zones</div>
+            <div className="text-2xl font-bold text-blue-brand tracking-wider">{countriesPresent}</div>
+            <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Targeted Geolocations</div>
+          </div>
+          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
+            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">engine link state</div>
+            <div className="text-2xl font-bold text-emerald-400 tracking-wider animate-pulse uppercase text-sm sm:text-base pt-1">INTEGRITY OK</div>
+            <div className="text-[9px] text-emerald-500/50 mt-1 uppercase font-bold tracking-wider">AI Synced live</div>
+          </div>
+        </div>
 
-        {/* Command Search Controls (ONLY VISIBLE IN SECURE ADMIN MODE) */}
-        {isAdmin && (
-          <div className="glass-card rounded-2xl p-4 border border-blue-brand/15 bg-navy/60 backdrop-blur-md shadow-2xl mb-8 animate-scale-in">
-            <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-4">
-              
-              {/* Search Input field */}
-              <div className="flex-1 relative">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Query message signatures, emails, or threat keyword details..."
-                  className="w-full saas-input rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-all font-semibold font-mono"
-                />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
-              </div>
+        {/* Command Search Controls */}
+        <div className="glass-card rounded-2xl p-4 border border-blue-brand/15 bg-navy/60 backdrop-blur-md shadow-2xl mb-8 animate-scale-in">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-4">
+            
+            {/* Search Input field */}
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Query message signatures, emails, or threat keyword details..."
+                className="w-full saas-input rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-all font-semibold font-mono"
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
+            </div>
 
-              {/* Dropdown filters */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative min-w-[200px]">
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full saas-input appearance-none rounded-xl px-4 py-3.5 pr-10 text-sm text-white focus:outline-none transition-all font-semibold cursor-pointer font-mono"
-                  >
-                    <option value="" className="bg-navy-dark text-white">All Threat Profiles</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat} className="bg-navy-dark text-white font-mono">
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  <Filter className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn-cyber px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg flex items-center justify-center gap-1.5 cursor-pointer font-sans"
+            {/* Dropdown filters */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative min-w-[200px]">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full saas-input appearance-none rounded-xl px-4 py-3.5 pr-10 text-sm text-white focus:outline-none transition-all font-semibold cursor-pointer font-mono"
                 >
-                  <Terminal className="h-4 w-4" />
-                  Query Logs
-                </button>
+                  <option value="" className="bg-navy-dark text-white">All Threat Profiles</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat} className="bg-navy-dark text-white font-mono">
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                <Filter className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
               </div>
 
-            </form>
-          </div>
-        )}
+              <button
+                type="submit"
+                className="btn-cyber px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg flex items-center justify-center gap-1.5 cursor-pointer font-sans"
+              >
+                <Terminal className="h-4 w-4" />
+                Query Logs
+              </button>
+            </div>
+
+          </form>
+        </div>
 
         {/* Threat Listings Catalog */}
         {loading ? (

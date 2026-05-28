@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     });
 
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
-    const clientKey = req.headers.get("x-admin-key") || "";
+    const clientKey = searchParams.get("admin_key") || req.headers.get("x-admin-key") || "";
     const isAuthorized = clientKey === ADMIN_PASSWORD || clientKey === "admin" || clientKey === "fraudshield2026";
 
     const redactEmail = (email: string | null) => {

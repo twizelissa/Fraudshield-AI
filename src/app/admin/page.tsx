@@ -45,34 +45,17 @@ const categories = [
 
 export default function AdminPage() {
   const [reports, setReports] = useState<ScamReport[]>([]);
-  const [loading, setLoading] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedKey = sessionStorage.getItem("fs-admin-key");
-      const correctKeys = ["admin", "admin123", "fraudshield2026"];
-      return correctKeys.includes(savedKey || "");
-    }
-    return false;
-  });
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  // Authentication State
-  const [isAdmin, setIsAdmin] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedKey = sessionStorage.getItem("fs-admin-key");
-      const correctKeys = ["admin", "admin123", "fraudshield2026"];
-      return correctKeys.includes(savedKey || "");
-    }
-    return false;
-  });
-  const [adminKey, setAdminKey] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("fs-admin-key") || "";
-    }
-    return "";
-  });
-  
+  // Authentication State — in-memory only, resets on navigation
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminKey, setAdminKey] = useState("");
+  const [adminUser, setAdminUser] = useState("");
+
+  const [decryptUsername, setDecryptUsername] = useState("");
   const [decryptPassword, setDecryptPassword] = useState("");
   const [decryptError, setDecryptError] = useState(false);
 
@@ -163,11 +146,16 @@ export default function AdminPage() {
   const handleDecrypt = (e: React.FormEvent) => {
     e.preventDefault();
     const correctKeys = ["admin", "admin123", "fraudshield2026"];
+    const correctUsers = ["admin", "operator", "fraudshield"];
+    
+    const user = decryptUsername.trim().toLowerCase();
     const key = decryptPassword.trim();
-    if (correctKeys.includes(key)) {
-      sessionStorage.setItem("fs-admin-key", key);
+    
+    if (correctUsers.includes(user) && correctKeys.includes(key)) {
       setIsAdmin(true);
       setAdminKey(key);
+      setAdminUser(user);
+      setDecryptUsername("");
       setDecryptPassword("");
       setDecryptError(false);
       fetchReports("", "", key);
@@ -179,9 +167,9 @@ export default function AdminPage() {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("fs-admin-key");
     setIsAdmin(false);
     setAdminKey("");
+    setAdminUser("");
     setReports([]);
   };
 
@@ -240,6 +228,20 @@ export default function AdminPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-[9px] font-bold uppercase tracking-widest text-blue-brand/70 mb-2.5 font-mono text-center">
+                Operator ID / Username
+              </label>
+              <input
+                type="text"
+                required
+                value={decryptUsername}
+                onChange={(e) => setDecryptUsername(e.target.value)}
+                placeholder="Enter operator username..."
+                className="w-full saas-input rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all font-mono text-center"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[9px] font-bold uppercase tracking-widest text-blue-brand/70 mb-2.5 font-mono text-center">
                 Decrypt Passcode Sequence
               </label>
               <input
@@ -289,9 +291,9 @@ export default function AdminPage() {
         
         {/* Upper Access Control Badge and Seal Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 border-b border-blue-brand/10 pb-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-[9px] font-bold text-emerald-400 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-[9px] font-bold text-emerald-400 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(16,185,129,0.1)] font-mono">
             <Activity className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
-            Secure Admin Session Active
+            Secure Admin Session: {adminUser}
           </div>
 
           <button

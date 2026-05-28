@@ -30,6 +30,67 @@ export async function POST(req: NextRequest) {
       (selectedType as MessageType) ?? "unknown"
     );
 
+    // Query latest community threat reports to find overlapping matches
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let matchingReports: any[] = [];
+    try {
+      const allReports = await prisma.scamReport.findMany({
+        take: 200,
+        orderBy: { createdAt: "desc" },
+      });
+
+      const STOP_WORDS = new Set([
+        "this", "that", "with", "from", "your", "have", "will", "here", "they", "been",
+        "please", "would", "about", "there", "their", "what", "when", "where", "which",
+        "should", "could", "would", "about", "more", "some", "other", "than", "then",
+        "them", "were", "went", "once", "only", "also"
+      ]);
+
+      const cleanText = (t: string) => t.toLowerCase().replace(/[^\w\s]/g, " ");
+      const inputNormalized = cleanText(inputText.trim());
+      const inputWords = new Set(
+        inputNormalized
+          .split(/\s+/)
+          .filter(w => w.length >= 4 && !STOP_WORDS.has(w))
+      );
+
+      for (const report of allReports) {
+        const reportMsg = report.reportedMessage;
+        const reportNormalized = cleanText(reportMsg);
+
+        // 1. Substring matches
+        if (
+          (inputText.trim().length >= 20 && reportMsg.toLowerCase().includes(inputText.trim().toLowerCase())) ||
+          (reportMsg.length >= 20 && inputText.trim().toLowerCase().includes(reportMsg.toLowerCase()))
+        ) {
+          matchingReports.push(report);
+          continue;
+        }
+
+        // 2. Keyword overlap match
+        const reportWords = reportNormalized
+          .split(/\s+/)
+          .filter(w => w.length >= 4 && !STOP_WORDS.has(w));
+        
+        let overlapCount = 0;
+        for (const rw of reportWords) {
+          if (inputWords.has(rw)) {
+            overlapCount++;
+          }
+        }
+
+        // 3 meaningful shared keywords indicate a threat vector match
+        if (overlapCount >= 3) {
+          matchingReports.push(report);
+        }
+      }
+
+      // Keep only top 4 matches
+      matchingReports = matchingReports.slice(0, 4);
+    } catch (searchError) {
+      console.error("Non-blocking DB search error for community threats:", searchError);
+    }
+
     let recordId = "temp-" + Math.random().toString(36).substring(2, 15);
     try {
       const record = await prisma.scamCheck.create({
@@ -58,6 +119,7 @@ export async function POST(req: NextRequest) {
       data: {
         id: recordId,
         ...analysis,
+        matchingReports,
       },
     });
   } catch (error) {

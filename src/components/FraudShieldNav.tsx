@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/check", label: "Scanner console" },
-  { href: "/admin", label: "Threat Database" },
+  { href: "/threats", label: "Threat Database" },
   { href: "/about", label: "Threat intelligence" },
   { href: "/report", label: "Submit threat" },
 ];

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import FraudShieldNav from "@/components/FraudShieldNav";
-import { Terminal } from "lucide-react";
+import { Shield } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "FraudShield AI — Cybersecurity & Scam Prevention",
@@ -39,7 +39,7 @@ export default function RootLayout({
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-white">
                 <div className="h-8 w-8 rounded-lg bg-blue-brand/5 text-blue-brand border border-blue-brand/15 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.05)]">
-                  <Terminal className="h-4 w-4 animate-flicker" />
+                  <Shield className="h-4 w-4 animate-pulse" />
                 </div>
                 <span className="font-bold tracking-widest uppercase text-[13px]">
                   FraudShield <span className="text-blue-brand">AI</span>

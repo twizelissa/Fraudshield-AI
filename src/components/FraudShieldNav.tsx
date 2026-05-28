@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Shield } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -22,8 +22,9 @@ export default function FraudShieldNav() {
       <div className="flex items-center justify-between px-4 py-3">
         {/* Logo with holographic flicker */}
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="h-9 w-9 rounded-xl bg-blue-brand/10 text-blue-brand border border-blue-brand/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.1)] group-hover:border-violet-brand/50 group-hover:text-violet-brand transition-all">
-            <Shield className="h-4.5 w-4.5 animate-pulse text-blue-brand" />
+          <div className="h-9 w-9 rounded-xl bg-blue-brand/10 border border-blue-brand/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.1)] group-hover:border-violet-brand/50 transition-all overflow-hidden p-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icon.png" alt="FraudShield AI Logo" className="h-full w-full object-contain animate-pulse" />
           </div>
           <span className="text-lg font-bold tracking-wider text-white uppercase flex items-center">
             FraudShield <span className="text-gradient-neon font-black ml-1.5 tracking-widest text-sm uppercase">Console</span>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import FraudShieldNav from "@/components/FraudShieldNav";
-import { Shield } from "lucide-react";
+
 
 export const metadata: Metadata = {
   title: "FraudShield AI — Cybersecurity & Scam Prevention",
@@ -38,8 +38,9 @@ export default function RootLayout({
           <div className="mx-auto max-w-5xl px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-8 font-mono text-[10px]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-white">
-                <div className="h-8 w-8 rounded-lg bg-blue-brand/5 text-blue-brand border border-blue-brand/15 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.05)]">
-                  <Shield className="h-4 w-4 animate-pulse" />
+                <div className="h-8 w-8 rounded-lg bg-blue-brand/5 border border-blue-brand/15 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.05)] overflow-hidden p-0.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icon.png" alt="FraudShield AI Logo" className="h-full w-full object-contain animate-pulse" />
                 </div>
                 <span className="font-bold tracking-widest uppercase text-[13px]">
                   FraudShield <span className="text-blue-brand">AI</span>

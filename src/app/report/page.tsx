@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Flag, CheckCircle, AlertCircle, ChevronDown, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
+import { Flag, CheckCircle, AlertCircle, ChevronDown, Terminal, Lock } from "lucide-react";
 
 const scamCategories = [
   "Fake job",
@@ -20,8 +21,34 @@ export default function ReportPage() {
     reportedMessage: "",
     category: "",
     country: "",
-    userEmail: "",
   });
+  const [user, setUser] = useState<{ email: string; name: string | null } | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/fraudshield/auth/user")
+      .then((r) => r.json())
+      .then((d) => setUser(d.user))
+      .catch(() => {})
+      .finally(() => setAuthChecked(true));
+  }, []);
+
+  const handleCredential = async (credential: string) => {
+    setError(null);
+    const res = await fetch("/api/fraudshield/auth/user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ credential }),
+    });
+    const data = await res.json();
+    if (data.success) setUser(data.user);
+    else setError(data.error ?? "Google sign-in failed.");
+  };
+
+  const handleSignOut = async () => {
+    await fetch("/api/fraudshield/auth/user", { method: "DELETE" });
+    setUser(null);
+  };
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,17 +77,17 @@ export default function ReportPage() {
           reportedMessage: form.reportedMessage.trim(),
           category: form.category || undefined,
           country: form.country.trim() || undefined,
-          userEmail: form.userEmail.trim() || undefined,
         }),
       });
 
       const data = await res.json();
+      if (res.status === 401) setUser(null);
       if (!data.success) {
         setError(data.error ?? "Threat submission failed. Please try again.");
         return;
       }
       setSuccess(true);
-      setForm({ reportedMessage: "", category: "", country: "", userEmail: "" });
+      setForm({ reportedMessage: "", category: "", country: "" });
     } catch {
       setError("Console connection error. Unable to dispatch payload.");
     } finally {
@@ -85,7 +112,19 @@ export default function ReportPage() {
           </p>
         </div>
 
-        {success ? (
+        {!authChecked ? null : !user ? (
+          <div className="glass-card w-full max-w-sm mx-auto rounded-2xl border border-blue-brand/20 bg-navy-dark p-8 shadow-2xl space-y-6 text-center animate-scale-in">
+            <Lock className="h-8 w-8 text-blue-brand mx-auto" />
+            <div>
+              <h2 className="text-xl font-bold text-white">Sign up to submit</h2>
+              <p className="text-sm text-slate-400 mt-1.5">
+                Create a free account with Google to report a scam message.
+              </p>
+            </div>
+            <GoogleSignInButton onCredential={handleCredential} text="signup_with" />
+            {error && <p className="text-xs text-red-400">{error}</p>}
+          </div>
+        ) : success ? (
           <div className="p-10 text-center bg-navy-dark border border-blue-brand/20 rounded-2xl shadow-2xl animate-scale-in">
             <div className="flex justify-center mb-5">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-brand/5 text-blue-brand border border-blue-brand/20 shadow-[0_0_15px_rgba(0,242,254,0.05)] animate-pulse">
@@ -105,6 +144,12 @@ export default function ReportPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="glass-card bg-navy-dark/90 rounded-3xl border border-blue-brand/20 p-6 sm:p-8 shadow-2xl space-y-5 animate-scale-in">
+            <div className="flex items-center justify-between gap-3 text-xs text-slate-400">
+              <span className="truncate">Signed in as {user.email}</span>
+              <button type="button" onClick={handleSignOut} className="text-blue-brand hover:underline cursor-pointer shrink-0">
+                Sign out
+              </button>
+            </div>
             {/* Scam message */}
             <div>
               <label
@@ -154,7 +199,7 @@ export default function ReportPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
+            <div>
               <div>
                 <label
                   htmlFor="country"
@@ -174,24 +219,6 @@ export default function ReportPage() {
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="userEmail"
-                  className="block text-[9px] font-bold text-blue-brand/70 uppercase tracking-widest mb-2.5 flex items-center gap-1 font-mono"
-                >
-                  <Terminal className="h-3 w-3" />
-                  Operator Contact Email
-                </label>
-                <input
-                  id="userEmail"
-                  name="userEmail"
-                  type="email"
-                  value={form.userEmail}
-                  onChange={handleChange}
-                  placeholder="For official threat follow-up"
-                  className="saas-input w-full rounded-xl border border-blue-brand/15 bg-navy-dark px-4 py-3 text-sm text-white placeholder:text-slate-700 focus:border-blue-brand focus:outline-none focus:ring-4 focus:ring-blue-brand/5 transition-all shadow-sm font-mono"
-                />
-              </div>
             </div>
 
             {/* Error */}

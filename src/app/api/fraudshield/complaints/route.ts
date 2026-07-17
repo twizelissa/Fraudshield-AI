@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { verifyGoogleAdmin } from "@/lib/google-auth";
 
 export async function GET(req: NextRequest) {
   try {
@@ -36,7 +37,11 @@ export async function GET(req: NextRequest) {
 
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
     const clientKey = searchParams.get("admin_key") || req.headers.get("x-admin-key") || "";
-    const isAuthorized = clientKey === ADMIN_PASSWORD || clientKey === "admin" || clientKey === "fraudshield2026";
+    const isAuthorized =
+      clientKey === ADMIN_PASSWORD ||
+      clientKey === "admin" ||
+      clientKey === "fraudshield2026" ||
+      (clientKey.length > 100 && (await verifyGoogleAdmin(clientKey)) !== null);
 
     const redactEmail = (email: string | null) => {
       if (!email) return null;

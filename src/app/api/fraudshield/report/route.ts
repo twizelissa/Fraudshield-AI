@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { USER_COOKIE, verifyGoogleToken } from "@/lib/google-auth";
 import { ReportRequest } from "@/types/fraudshield";
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await verifyGoogleToken(req.cookies.get(USER_COOKIE)?.value ?? "");
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "Please sign in with Google to submit a report." },
+        { status: 401 }
+      );
+    }
+
     const body: ReportRequest = await req.json();
-    const { reportedMessage, category, country, userEmail } = body;
+    const { reportedMessage, category, country } = body;
 
     if (!reportedMessage || reportedMessage.trim().length < 10) {
       return NextResponse.json(
@@ -20,7 +29,7 @@ export async function POST(req: NextRequest) {
           reportedMessage: reportedMessage.trim(),
           category: category ?? null,
           country: country ?? null,
-          userEmail: userEmail ?? null,
+          userEmail: user.email,
         },
       });
     } catch (dbError) {

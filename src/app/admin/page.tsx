@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GoogleSignInButton, { GOOGLE_CLIENT_ID } from "@/components/GoogleSignInButton";
 import {
   Terminal,
   Activity,
@@ -166,6 +167,24 @@ export default function AdminPage() {
     }
   };
 
+  const handleGoogleCredential = async (credential: string) => {
+    const res = await fetch("/api/fraudshield/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ credential }),
+    });
+    const result = await res.json();
+    if (!result.success) {
+      setDecryptError(true);
+      setTimeout(() => setDecryptError(false), 2500);
+      return;
+    }
+    setIsAdmin(true);
+    setAdminKey(credential);
+    setAdminUser(result.email);
+    fetchReports("", "", credential);
+  };
+
   const handleLogout = () => {
     setIsAdmin(false);
     setAdminKey("");
@@ -202,80 +221,57 @@ export default function AdminPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // 1. visitor Screen: Strictly locked terminal crack checkpoint screen when not authenticated
+  // 1. Sign-in screen
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-navy cyber-grid flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Background Decorative Mesh Orbs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-brand/5 blur-[120px] pointer-events-none rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-violet-brand/5 blur-[120px] pointer-events-none rounded-full" />
-
-        <form
-          onSubmit={handleDecrypt}
-          className="glass-card w-full max-w-md rounded-2xl border border-blue-brand/40 bg-navy-dark p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden"
-        >
-          {/* Holographic matrix line scanner decoration */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_95%,rgba(0,242,254,0.05)_95%)] bg-[size:100%_20px] animate-pulse pointer-events-none" />
-
+      <div className="min-h-screen bg-navy cyber-grid flex items-center justify-center p-4">
+        <div className="glass-card w-full max-w-sm rounded-2xl border border-blue-brand/20 bg-navy-dark p-8 shadow-2xl space-y-6">
           <div className="text-center">
-            <Lock className="h-10 w-10 text-blue-brand mx-auto mb-4 animate-pulse" />
-            <h2 className="text-lg font-bold uppercase tracking-widest text-white font-mono">Restricted Access Checkpoint</h2>
-            <p className="text-[11px] font-mono text-slate-500 mt-2 leading-relaxed">
-              OPERATOR LOGS LEDGER: Decrypted raw threat signals and index coordinates require terminal decrypt keys.
-            </p>
+            <Lock className="h-8 w-8 text-blue-brand mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-white">Admin sign in</h2>
+            <p className="text-sm text-slate-400 mt-1.5">Access the full threat catalog.</p>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-blue-brand/70 mb-2.5 font-mono text-center">
-                Operator ID / Username
-              </label>
-              <input
-                type="text"
-                required
-                value={decryptUsername}
-                onChange={(e) => setDecryptUsername(e.target.value)}
-                placeholder="Enter operator username..."
-                className="w-full saas-input rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all font-mono text-center"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-blue-brand/70 mb-2.5 font-mono text-center">
-                Decrypt Passcode Sequence
-              </label>
-              <input
-                type="password"
-                required
-                value={decryptPassword}
-                onChange={(e) => setDecryptPassword(e.target.value)}
-                placeholder="Enter decrypt passcode..."
-                className="w-full saas-input rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-all font-mono tracking-widest text-center"
-              />
-            </div>
-
-            {/* Error Flash */}
-            {decryptError && (
-              <div className="p-3 bg-red-950/20 border border-red-500/20 rounded-xl text-center animate-scale-in font-mono text-[9px] font-bold text-red-400 uppercase tracking-widest shadow-[0_0_12px_rgba(239,68,68,0.1)] animate-bounce">
-                DECRYPTION SEQUENCE FAILURE: ACCESS REFUSED
+          {GOOGLE_CLIENT_ID && (
+            <>
+              <GoogleSignInButton onCredential={handleGoogleCredential} />
+              <div className="flex items-center gap-3 text-xs text-slate-500">
+                <span className="h-px flex-1 bg-white/10" />
+                or
+                <span className="h-px flex-1 bg-white/10" />
               </div>
-            )}
-          </div>
+            </>
+          )}
 
-          <div className="flex items-center gap-3">
+          <form onSubmit={handleDecrypt} className="space-y-3">
+            <input
+              type="text"
+              required
+              value={decryptUsername}
+              onChange={(e) => setDecryptUsername(e.target.value)}
+              placeholder="Username"
+              className="w-full saas-input rounded-xl px-4 py-3 text-sm text-white focus:outline-none"
+            />
+            <input
+              type="password"
+              required
+              value={decryptPassword}
+              onChange={(e) => setDecryptPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full saas-input rounded-xl px-4 py-3 text-sm text-white focus:outline-none"
+            />
+            {decryptError && (
+              <p className="text-xs text-red-400 text-center">Invalid credentials.</p>
+            )}
             <button
               type="submit"
-              className="flex-1 btn-cyber py-3.5 rounded-xl text-xs font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-1.5 cursor-pointer font-sans"
+              className="w-full btn-cyber py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Unlock className="h-3.5 w-3.5 text-navy shrink-0" />
-              Crack Gate
+              <Unlock className="h-4 w-4 shrink-0" />
+              Sign in
             </button>
-          </div>
-
-          <div className="text-[8px] font-mono text-slate-600 text-center leading-normal">
-            SECURE DECRYPTION HUB: Access keys are overridable via ADMIN_PASSWORD environment records.
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }

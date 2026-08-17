@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import GoogleSignInButton, { GOOGLE_CLIENT_ID } from "@/components/GoogleSignInButton";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import {
   Terminal,
   Activity,
@@ -19,7 +19,6 @@ import {
   Database,
   Globe,
   Lock,
-  Unlock,
   Heart,
 } from "lucide-react";
 
@@ -56,8 +55,6 @@ export default function AdminPage() {
   const [adminKey, setAdminKey] = useState("");
   const [adminUser, setAdminUser] = useState("");
 
-  const [decryptUsername, setDecryptUsername] = useState("");
-  const [decryptPassword, setDecryptPassword] = useState("");
   const [decryptError, setDecryptError] = useState(false);
 
   // Upvote / Telemetry state (Stored in LocalStorage)
@@ -144,29 +141,6 @@ export default function AdminPage() {
     }
   };
 
-  const handleDecrypt = (e: React.FormEvent) => {
-    e.preventDefault();
-    const correctKeys = ["admin", "admin123", "fraudshield2026"];
-    const correctUsers = ["admin", "operator", "fraudshield"];
-    
-    const user = decryptUsername.trim().toLowerCase();
-    const key = decryptPassword.trim();
-    
-    if (correctUsers.includes(user) && correctKeys.includes(key)) {
-      setIsAdmin(true);
-      setAdminKey(key);
-      setAdminUser(user);
-      setDecryptUsername("");
-      setDecryptPassword("");
-      setDecryptError(false);
-      fetchReports("", "", key);
-    } else {
-      setDecryptError(true);
-      setDecryptPassword("");
-      setTimeout(() => setDecryptError(false), 2500);
-    }
-  };
-
   const handleGoogleCredential = async (credential: string) => {
     const res = await fetch("/api/fraudshield/auth/google", {
       method: "POST",
@@ -232,45 +206,10 @@ export default function AdminPage() {
             <p className="text-sm text-slate-400 mt-1.5">Access the full threat catalog.</p>
           </div>
 
-          {GOOGLE_CLIENT_ID && (
-            <>
-              <GoogleSignInButton onCredential={handleGoogleCredential} />
-              <div className="flex items-center gap-3 text-xs text-slate-500">
-                <span className="h-px flex-1 bg-white/10" />
-                or
-                <span className="h-px flex-1 bg-white/10" />
-              </div>
-            </>
+          <GoogleSignInButton onCredential={handleGoogleCredential} />
+          {decryptError && (
+            <p className="text-xs text-red-400 text-center">This account is not authorized.</p>
           )}
-
-          <form onSubmit={handleDecrypt} className="space-y-3">
-            <input
-              type="text"
-              required
-              value={decryptUsername}
-              onChange={(e) => setDecryptUsername(e.target.value)}
-              placeholder="Username"
-              className="w-full saas-input rounded-xl px-4 py-3 text-sm text-white focus:outline-none"
-            />
-            <input
-              type="password"
-              required
-              value={decryptPassword}
-              onChange={(e) => setDecryptPassword(e.target.value)}
-              placeholder="Password"
-              className="w-full saas-input rounded-xl px-4 py-3 text-sm text-white focus:outline-none"
-            />
-            {decryptError && (
-              <p className="text-xs text-red-400 text-center">Invalid credentials.</p>
-            )}
-            <button
-              type="submit"
-              className="w-full btn-cyber py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Unlock className="h-4 w-4 shrink-0" />
-              Sign in
-            </button>
-          </form>
         </div>
       </div>
     );

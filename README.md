@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Google sign-in
+
+Sign-in is used to submit reports (`/report`) and for admins (`/admin`).
+
+1. Open [Google Cloud Console](https://console.cloud.google.com/apis/credentials) → **Create credentials → OAuth client ID → Web application**.
+2. Under **Authorized JavaScript origins** add `http://localhost:3000` (and your production URL).
+3. Copy the client ID into `.env.local`:
+
+```
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-id.apps.googleusercontent.com
+ADMIN_EMAILS=you@gmail.com,teammate@gmail.com
+```
+
+4. Restart `npm run dev`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

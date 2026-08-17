@@ -35,13 +35,8 @@ export async function GET(req: NextRequest) {
       take: limit,
     });
 
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
     const clientKey = searchParams.get("admin_key") || req.headers.get("x-admin-key") || "";
-    const isAuthorized =
-      clientKey === ADMIN_PASSWORD ||
-      clientKey === "admin" ||
-      clientKey === "fraudshield2026" ||
-      (clientKey.length > 100 && (await verifyGoogleAdmin(clientKey)) !== null);
+    const isAuthorized = clientKey.length > 100 && (await verifyGoogleAdmin(clientKey)) !== null;
 
     const redactEmail = (email: string | null) => {
       if (!email) return null;

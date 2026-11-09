@@ -1,7 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ScamAnalysis, MessageType } from "@/types/fraudshield";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+function getGenAI() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not set. Please check your .env.local file.");
+  }
+  return new GoogleGenerativeAI(apiKey);
+}
 
 const messageTypeLabels: Record<MessageType, string> = {
   job: "job offer",
@@ -59,6 +65,7 @@ export async function analyzeScamText(
   text: string,
   messageType: MessageType = "unknown"
 ): Promise<ScamAnalysis> {
+  const genAI = getGenAI();
   const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,7 +121,18 @@ If the message appears legitimate, still note any minor concerns or confirm it a
     .replace(/\s*```$/i, "")
     .trim();
 
-  const parsed: ScamAnalysis = JSON.parse(cleaned);
+  let parsed: ScamAnalysis;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch {
+    const firstBrace = cleaned.indexOf("{");
+    const lastBrace = cleaned.lastIndexOf("}");
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      parsed = JSON.parse(cleaned.substring(firstBrace, lastBrace + 1));
+    } else {
+      throw new Error("Unable to parse AI verification response as JSON.");
+    }
+  }
 
   // Validate and clamp risk score
   parsed.risk_score = Math.max(0, Math.min(100, Math.round(parsed.risk_score)));

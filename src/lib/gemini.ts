@@ -28,17 +28,17 @@ async function callGeminiWithRetry(
   } catch (err: unknown) {
     const error = err as { status?: number; statusText?: string; message?: string };
     const errMsg = error?.message || (err instanceof Error ? err.message : String(err));
-    
+
     const is429 = error?.status === 429 || errMsg.includes("429") || errMsg.includes("Quota exceeded") || errMsg.includes("Too Many Requests");
-    const isTemporaryServerLoad = 
-      error?.status === 503 || 
-      error?.status === 502 || 
-      error?.status === 504 || 
-      errMsg.includes("503") || 
-      errMsg.includes("502") || 
-      errMsg.includes("504") || 
-      errMsg.includes("Service Unavailable") || 
-      errMsg.includes("overloaded") || 
+    const isTemporaryServerLoad =
+      error?.status === 503 ||
+      error?.status === 502 ||
+      error?.status === 504 ||
+      errMsg.includes("503") ||
+      errMsg.includes("502") ||
+      errMsg.includes("504") ||
+      errMsg.includes("Service Unavailable") ||
+      errMsg.includes("overloaded") ||
       errMsg.includes("high demand");
 
     if (is429 && retries > 0) {

@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         const reportWords = reportNormalized
           .split(/\s+/)
           .filter(w => w.length >= 4 && !STOP_WORDS.has(w));
-        
+
         let overlapCount = 0;
         for (const rw of reportWords) {
           if (inputWords.has(rw)) {

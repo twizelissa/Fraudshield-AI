@@ -29,8 +29,9 @@ export default function RootLayout({
               {/* Brand Column */}
               <div className="md:col-span-5 space-y-3">
                 <Link href="/" className="flex items-center gap-2.5 group">
-                  <div className="h-8 w-8 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shadow-xs">
-                    <ShieldCheck className="h-4.5 w-4.5 text-white" />
+                  <div className="h-9 w-9 rounded-xl bg-white border border-[#E5E0D8] flex items-center justify-center p-1 shadow-sm overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/brain_charger_logo.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
                   </div>
                   <span className="text-lg font-extrabold tracking-tight text-white">
                     FraudShield

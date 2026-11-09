@@ -62,11 +62,7 @@ export default function HomePage() {
       <div className="mx-auto max-w-5xl space-y-10 animate-fade-in">
 
         {/* App Hero Header - concise, minimal words */}
-        <div className="text-center max-w-2xl mx-auto pt-6 space-y-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#E5E0D8] bg-white px-3 py-1 text-xs font-bold text-black shadow-xs">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#11382B]" />
-            Scam Detection Console
-          </div>
+        <div className="text-center max-w-2xl mx-auto pt-8 space-y-3">
           <h1 className="text-3xl sm:text-5xl font-extrabold text-black tracking-tight leading-tight">
             Verify messages before you trust.
           </h1>

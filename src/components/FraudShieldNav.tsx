@@ -24,8 +24,9 @@ export default function FraudShieldNav() {
 
         {/* Clean minimal app brandmark */}
         <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
-          <div className="h-8 w-8 rounded-xl bg-[#11382B] flex items-center justify-center shadow-2xs group-hover:bg-[#0C271E] transition-all text-white">
-            <ShieldCheck className="h-4.5 w-4.5 text-white" />
+          <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center shadow-2xs group-hover:border-[#11382B] transition-all p-1 overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brain_charger_logo.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
           </div>
           <span className="text-lg font-extrabold tracking-tight text-black">
             FraudShield

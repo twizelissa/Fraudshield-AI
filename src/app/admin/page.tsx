@@ -69,7 +69,7 @@ export default function AdminPage() {
     }
     return [];
   });
-  
+
   // Drawer / Inspector state
   const [selectedReport, setSelectedReport] = useState<ScamReport | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -90,7 +90,7 @@ export default function AdminPage() {
       if (searchVal.trim()) qParams.append("q", searchVal.trim());
       if (catVal) qParams.append("category", catVal);
       qParams.append("admin_key", activeKey);
-      
+
       const headers: Record<string, string> = {
         "x-admin-key": activeKey
       };
@@ -99,7 +99,7 @@ export default function AdminPage() {
         headers
       });
       const result = await res.json();
-      
+
       if (!result.success) {
         throw new Error(result.error || "Failed to fetch threat database");
       }
@@ -177,14 +177,14 @@ export default function AdminPage() {
 
   const handleUpvote = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Avoid triggering card details inspection drawer
-    
+
     let nextUpvotes;
     if (upvotedIds.includes(id)) {
       nextUpvotes = upvotedIds.filter(x => x !== id);
     } else {
       nextUpvotes = [...upvotedIds, id];
     }
-    
+
     setUpvotedIds(nextUpvotes);
     localStorage.setItem("fs-upvoted-ids", JSON.stringify(nextUpvotes));
   };
@@ -198,121 +198,112 @@ export default function AdminPage() {
   // 1. Sign-in screen
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-navy cyber-grid flex items-center justify-center p-4">
-        <div className="glass-card w-full max-w-sm rounded-2xl border border-blue-brand/20 bg-navy-dark p-8 shadow-2xl space-y-6">
+      <div className="min-h-screen bg-[#F8F6F0] flex items-center justify-center p-4">
+        <div className="card-editorial w-full max-w-sm rounded-2xl border border-[#E5E0D8] bg-white p-7 shadow-xs space-y-5 text-center">
           <div className="text-center">
-            <Lock className="h-8 w-8 text-blue-brand mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-white">Admin sign in</h2>
-            <p className="text-sm text-slate-400 mt-1.5">Access the full threat catalog.</p>
+            <Lock className="h-7 w-7 text-[#11382B] mx-auto mb-3" />
+            <h2 className="text-lg font-bold text-black">Admin Sign In</h2>
+            <p className="text-xs text-black mt-1 font-medium">Access database records.</p>
           </div>
 
           <GoogleSignInButton onCredential={handleGoogleCredential} />
           {decryptError && (
-            <p className="text-xs text-red-400 text-center">This account is not authorized.</p>
+            <p className="text-xs text-[#DC2626] text-center font-bold">Unauthorized account.</p>
           )}
         </div>
       </div>
     );
   }
 
-  // 2. Admin Screen: Completely Decrypted console views
+  // 2. Admin Screen: App management console
   return (
-    <div className="min-h-screen bg-navy cyber-grid py-16 px-4 relative overflow-hidden">
-      {/* Background Decorative Mesh Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-brand/5 blur-[120px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-violet-brand/5 blur-[120px] pointer-events-none rounded-full" />
-
+    <div className="min-h-screen bg-[#F8F6F0] py-10 px-4 relative">
       <div className="mx-auto max-w-5xl relative z-10 animate-fade-in">
-        
-        {/* Upper Access Control Badge and Seal Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 border-b border-blue-brand/10 pb-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-4 py-1.5 text-[9px] font-bold text-emerald-400 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(16,185,129,0.1)] font-mono">
-            <Activity className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
-            Secure Admin Session: {adminUser}
+
+        {/* Upper Session Info */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 border-b border-[#E5E0D8] pb-4">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#BBF7D0] bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#166534]">
+            <Activity className="h-3 w-3 text-[#166534]" />
+            Admin: {adminUser}
           </div>
 
           <button
             onClick={handleLogout}
-            className="px-4 py-2 rounded-xl bg-navy/80 hover:bg-white/5 text-slate-300 border border-blue-brand/15 text-[10px] font-bold uppercase tracking-widest hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer animate-flicker"
+            className="px-3.5 py-1.5 rounded-xl bg-white text-black border-1.5 border-[#E5E0D8] hover:border-black hover:bg-[#FAF8F5] text-xs font-bold shadow-xs cursor-pointer transition-all"
           >
-            Seal Logs Console
+            Log Out
           </button>
         </div>
 
-        {/* Title Context */}
-        <div className="mb-10 text-center animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3 tracking-widest uppercase">
-            Decrypted Threat Catalog
+        {/* Title */}
+        <div className="mb-6 text-center animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
+            Threat Catalog
           </h1>
-          <p className="text-slate-400 text-sm max-w-xl mx-auto font-medium leading-relaxed font-mono">
-            Full operational catalog view active. Access keyword log querying, unmasked coordinates, and raw reported message payloads.
+          <p className="text-black text-xs sm:text-sm font-medium mt-1">
+            Raw threat dispatches and user reports.
           </p>
         </div>
 
         {/* Telemetry Metrics Panel Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-scale-in">
-          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">threat signals</div>
-            <div className="text-2xl font-bold text-white tracking-wider">{totalSignals}</div>
-            <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Indexed logs</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 animate-scale-in">
+          <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
+            <div className="text-xs font-bold text-black mb-0.5">Total Reports</div>
+            <div className="text-xl font-extrabold text-black tracking-tight">{totalSignals}</div>
           </div>
-          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">risk vector profiles</div>
-            <div className="text-2xl font-bold text-violet-brand tracking-wider">{categoriesPresent}</div>
-            <div className="text-[9px] text-violet-brand/50 mt-1 uppercase font-bold tracking-wider">Categories matched</div>
+          <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
+            <div className="text-xs font-bold text-black mb-0.5">Categories</div>
+            <div className="text-xl font-extrabold text-[#D97706] tracking-tight">{categoriesPresent}</div>
           </div>
-          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">global focal zones</div>
-            <div className="text-2xl font-bold text-blue-brand tracking-wider">{countriesPresent}</div>
-            <div className="text-[9px] text-blue-brand/50 mt-1 uppercase font-bold tracking-wider">Targeted Geolocations</div>
+          <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
+            <div className="text-xs font-bold text-black mb-0.5">Regions</div>
+            <div className="text-xl font-extrabold text-[#11382B] tracking-tight">{countriesPresent}</div>
           </div>
-          <div className="glass-card p-4 rounded-xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover:border-blue-brand/20 transition-all font-mono">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">engine link state</div>
-            <div className="text-2xl font-bold text-emerald-400 tracking-wider animate-pulse uppercase text-sm sm:text-base pt-1">INTEGRITY OK</div>
-            <div className="text-[9px] text-emerald-500/50 mt-1 uppercase font-bold tracking-wider">AI Synced live</div>
+          <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
+            <div className="text-xs font-bold text-black mb-0.5">System State</div>
+            <div className="text-base font-extrabold text-[#166534] tracking-tight pt-0.5">ACTIVE</div>
           </div>
         </div>
 
         {/* Command Search Controls */}
-        <div className="glass-card rounded-2xl p-4 border border-blue-brand/15 bg-navy/60 backdrop-blur-md shadow-2xl mb-8 animate-scale-in">
-          <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-4">
-            
+        <div className="card-editorial rounded-2xl p-3 sm:p-4 border border-[#E5E0D8] bg-white shadow-xs mb-6 animate-scale-in">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-2.5">
+
             {/* Search Input field */}
             <div className="flex-1 relative">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Query message signatures, emails, or threat keyword details..."
-                className="w-full saas-input rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-all font-semibold font-mono"
+                placeholder="Search threats, emails, or keywords..."
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] pl-9 pr-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-medium"
               />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-black" />
             </div>
 
             {/* Dropdown filters */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative min-w-[200px]">
+            <div className="flex flex-col sm:flex-row gap-2.5">
+              <div className="relative min-w-[180px]">
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full saas-input appearance-none rounded-xl px-4 py-3.5 pr-10 text-sm text-white focus:outline-none transition-all font-semibold cursor-pointer font-mono"
+                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 pr-8 text-xs sm:text-sm text-black focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-semibold cursor-pointer"
                 >
-                  <option value="" className="bg-navy-dark text-white">All Threat Profiles</option>
+                  <option value="" className="bg-white text-black font-medium">All Categories</option>
                   {categories.map((cat) => (
-                    <option key={cat} value={cat} className="bg-navy-dark text-white font-mono">
+                    <option key={cat} value={cat} className="bg-white text-black font-medium">
                       {cat}
                     </option>
                   ))}
                 </select>
-                <Filter className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
+                <Filter className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-black" />
               </div>
 
               <button
                 type="submit"
-                className="btn-cyber px-6 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg flex items-center justify-center gap-1.5 cursor-pointer font-sans"
+                className="btn-pine px-5 py-2.5 rounded-xl text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <Terminal className="h-4 w-4" />
-                Query Logs
+                Search
               </button>
             </div>
 
@@ -321,35 +312,35 @@ export default function AdminPage() {
 
         {/* Threat Listings Catalog */}
         {loading ? (
-          <div className="glass-card rounded-2xl border border-blue-brand/15 bg-navy/60 p-24 text-center shadow-2xl animate-scale-in">
-            <div className="flex justify-center mb-5">
-              <Loader2 className="h-8 w-8 text-blue-brand animate-spin" />
+          <div className="card-editorial rounded-2xl border border-[#E5E0D8] bg-white p-12 text-center shadow-xs animate-scale-in">
+            <div className="flex justify-center mb-3">
+              <Loader2 className="h-7 w-7 text-[#11382B] animate-spin" />
             </div>
-            <h3 className="text-base font-bold text-white mb-2 tracking-widest uppercase font-mono">Querying Threat Ledger...</h3>
-            <p className="text-slate-400 text-xs font-medium font-mono">Retrieving active indicators and user dispatches from databases...</p>
+            <h3 className="text-sm font-bold text-black mb-1">Loading database...</h3>
+            <p className="text-black text-xs font-medium">Fetching verified threats.</p>
           </div>
         ) : error ? (
-          <div className="p-8 text-center bg-violet-950/20 border border-violet-900/50 rounded-2xl shadow-xl animate-scale-in text-violet-300 font-mono text-xs">
-            <ShieldAlert className="h-8 w-8 text-violet-brand mx-auto mb-4 animate-bounce" />
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-2">TELEMETRY ERROR DETECTED</h3>
-            <p className="text-[11px] text-slate-400 font-medium mb-4">{error}</p>
+          <div className="p-6 text-center bg-[#FEF2F2] border border-[#FCA5A5] rounded-2xl shadow-xs animate-scale-in text-[#991B1B] text-xs">
+            <ShieldAlert className="h-7 w-7 text-[#DC2626] mx-auto mb-2" />
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-1">Error Loading Data</h3>
+            <p className="text-xs text-black font-medium mb-3">{error}</p>
             <button
               onClick={() => fetchReports(search, category)}
-              className="px-5 py-2.5 rounded-xl border border-violet-850 hover:bg-violet-900/10 transition-all font-semibold uppercase tracking-widest text-[9px]"
+              className="px-4 py-2 rounded-xl border border-[#FCA5A5] bg-white hover:bg-[#FEF2F2] text-black font-bold text-xs"
             >
-              Recalibrate Telemetry Grid
+              Retry
             </button>
           </div>
         ) : reports.length === 0 ? (
-          <div className="glass-card rounded-2xl border border-blue-brand/10 bg-navy/40 p-20 text-center shadow-xl animate-scale-in border-dashed">
-            <Database className="h-8 w-8 text-slate-600 mx-auto mb-4 animate-pulse" />
-            <h3 className="text-sm font-bold text-white mb-2 tracking-widest uppercase font-mono">No Threat Signals Cataloged</h3>
-            <p className="text-slate-500 text-xs font-medium leading-relaxed max-w-sm mx-auto">
-              Your query returned zero active threat signature entries. Revise your search descriptors or selection filters.
+          <div className="card-editorial rounded-2xl border border-[#E5E0D8] bg-white p-12 text-center shadow-xs animate-scale-in border-dashed">
+            <Database className="h-7 w-7 text-black mx-auto mb-2" />
+            <h3 className="text-sm font-bold text-black mb-1">No reports found</h3>
+            <p className="text-black text-xs font-medium leading-relaxed max-w-sm mx-auto">
+              No matching threats found.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-scale-in">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-scale-in">
             {reports.map((report) => {
               const isUpvoted = upvotedIds.includes(report.id);
               const upvoteCount = getBaseUpvotes(report.id) + (isUpvoted ? 1 : 0);
@@ -358,63 +349,58 @@ export default function AdminPage() {
                 <div
                   key={report.id}
                   onClick={() => setSelectedReport(report)}
-                  className="glass-card p-6 rounded-2xl border border-blue-brand/10 bg-navy/60 backdrop-blur shadow-lg hover-lift transition-all duration-300 cursor-pointer flex flex-col justify-between group relative overflow-hidden"
+                  className="card-editorial p-4 sm:p-5 rounded-2xl border border-[#E5E0D8] bg-white shadow-xs hover:border-black transition-all cursor-pointer flex flex-col justify-between group"
                 >
-                  {/* Accent Line glow */}
-                  <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-blue-brand/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
                   <div>
                     {/* Top card metadata */}
-                    <div className="flex items-center justify-between gap-3 mb-4 font-mono text-[9px]">
-                      <span className="px-2.5 py-1 rounded bg-blue-brand/5 border border-blue-brand/20 text-blue-brand font-bold uppercase tracking-wider">
-                        {report.category || "General Uncategorized"}
+                    <div className="flex items-center justify-between gap-2 mb-2.5 text-xs">
+                      <span className="px-2 py-0.5 rounded-full bg-[#FAF8F5] border border-[#E5E0D8] text-black font-bold text-[11px]">
+                        {report.category || "General"}
                       </span>
-                      <span className="text-slate-500 font-medium flex items-center gap-1">
+                      <span className="text-black font-bold flex items-center gap-1 text-[11px]">
                         <Calendar className="h-3 w-3" />
                         {new Date(report.createdAt).toLocaleDateString()}
                       </span>
                     </div>
 
                     {/* Body text snippet */}
-                    <p className="text-slate-300 text-xs font-mono leading-relaxed line-clamp-4 mb-6 whitespace-pre-line group-hover:text-white transition-colors bg-navy-dark/40 p-3 rounded-lg border border-blue-brand/5">
+                    <p className="text-black text-xs leading-relaxed line-clamp-3 mb-3 whitespace-pre-line bg-[#FAF8F5] p-3 rounded-xl border border-[#E5E0D8] font-medium">
                       {report.reportedMessage}
                     </p>
                   </div>
 
                   {/* Bottom card details info row */}
-                  <div className="border-t border-blue-brand/5 pt-4 flex items-center justify-between gap-4 font-mono text-[9px]">
-                    <div className="flex items-center gap-2.5 font-mono">
-                      <span className="text-slate-500 flex items-center gap-1 font-medium max-w-[130px] sm:max-w-none truncate">
-                        <User className="h-3.5 w-3.5 text-blue-brand/50 shrink-0" />
-                        {report.userEmail || "Anonymous Submitter"}
+                  <div className="border-t border-[#E5E0D8] pt-2.5 flex items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="text-black flex items-center gap-1 font-bold max-w-[130px] sm:max-w-none truncate text-[11px]">
+                        <User className="h-3.5 w-3.5 text-black shrink-0" />
+                        {report.userEmail || "Anonymous"}
                       </span>
                       {report.country && (
-                        <span className="text-slate-500 flex items-center gap-1 font-medium border-l border-blue-brand/10 pl-3">
-                          <MapPin className="h-3.5 w-3.5 text-violet-brand/50 shrink-0" />
+                        <span className="text-black flex items-center gap-1 font-bold border-l border-[#E5E0D8] pl-2 text-[11px]">
+                          <MapPin className="h-3.5 w-3.5 text-black shrink-0" />
                           {report.country}
                         </span>
                       )}
                     </div>
 
                     {/* Upvote & Inspect Actions */}
-                    <div className="flex items-center gap-3 shrink-0">
-                      {/* Interactive Simulated Upvoting Telemetry */}
+                    <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={(e) => handleUpvote(e, report.id)}
-                        className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg border text-[9px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer ${
-                          isUpvoted
-                            ? "bg-red-500/10 border-red-500/35 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.15)]"
-                            : "bg-navy-dark border-blue-brand/10 text-slate-500 hover:border-red-500/20 hover:text-red-400"
-                        }`}
-                        aria-label="Upvote Scam report"
+                        className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer ${isUpvoted
+                          ? "bg-[#FEF2F2] border-[#FCA5A5] text-[#991B1B]"
+                          : "bg-[#FAF8F5] border-[#E5E0D8] text-black hover:border-black hover:bg-white"
+                          }`}
+                        aria-label="Upvote report"
                       >
-                        <Heart className={`h-3 w-3 ${isUpvoted ? "fill-red-400 text-red-400" : ""}`} />
+                        <Heart className={`h-3 w-3 ${isUpvoted ? "fill-[#DC2626] text-[#DC2626]" : "text-black"}`} />
                         {upvoteCount}
                       </button>
-                      
-                      <span className="text-blue-brand/70 font-bold uppercase tracking-wider flex items-center gap-1 group-hover:text-blue-brand transition-colors">
-                        inspect
-                        <ChevronRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+
+                      <span className="text-[#11382B] font-bold text-xs flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                        Inspect
+                        <ChevronRight className="h-3 w-3" />
                       </span>
                     </div>
                   </div>
@@ -427,91 +413,91 @@ export default function AdminPage() {
 
       </div>
 
-      {/* Large Glassmorphic Inspector Drawer Panel */}
+      {/* Inspector Drawer Panel */}
       {selectedReport && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-dark/80 backdrop-blur-md animate-fade-in" onClick={() => setSelectedReport(null)}>
-          
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in" onClick={() => setSelectedReport(null)}>
+
           <div
-            className="glass-card w-full max-w-2xl rounded-3xl border border-blue-brand/35 bg-[#070e20] shadow-2xl overflow-hidden animate-scale-in relative"
+            className="card-editorial w-full max-w-xl rounded-2xl border border-[#E5E0D8] bg-white shadow-2xl overflow-hidden animate-scale-in relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header Control */}
-            <div className="border-b border-blue-brand/15 bg-navy/80 px-6 py-4 flex items-center justify-between gap-4">
+            <div className="border-b border-[#E5E0D8] bg-[#FAF8F5] px-5 py-3.5 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-blue-brand animate-flicker" />
-                <span className="text-[10px] font-bold text-blue-brand uppercase tracking-widest font-mono">
-                  threat ledger payload <code className="font-mono text-slate-500 ml-1">#fs-{selectedReport.id.slice(0, 8)}</code>
+                <Terminal className="h-4 w-4 text-[#11382B]" />
+                <span className="text-xs font-bold text-black">
+                  Report <code className="text-black ml-1 font-mono font-bold">#fs-{selectedReport.id.slice(0, 8)}</code>
                 </span>
               </div>
               <button
                 onClick={() => setSelectedReport(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all border border-transparent hover:border-blue-brand/15 cursor-pointer"
-                aria-label="Close details"
+                className="p-1 rounded-lg text-black hover:text-[#11382B] hover:bg-[#FAF8F5] transition-all cursor-pointer"
+                aria-label="Close"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="p-6 sm:p-8 space-y-6">
-              
+            <div className="p-5 sm:p-6 space-y-4">
+
               {/* Telemetry info cards row inside drawer */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 font-mono text-[10px]">
-                <div className="p-3 bg-navy-dark/60 rounded-xl border border-blue-brand/10">
-                  <div className="text-slate-500 uppercase font-bold tracking-wider mb-1">risk profile vector</div>
-                  <div className="text-white font-bold uppercase text-[11px] tracking-wide text-blue-brand">
-                    {selectedReport.category || "Uncategorized"}
+              <div className="grid grid-cols-3 gap-2.5 text-xs">
+                <div className="p-2.5 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
+                  <div className="text-black font-bold mb-0.5 text-[11px]">Category</div>
+                  <div className="text-[#11382B] font-bold text-xs">
+                    {selectedReport.category || "General"}
                   </div>
                 </div>
-                <div className="p-3 bg-navy-dark/60 rounded-xl border border-blue-brand/10">
-                  <div className="text-slate-500 uppercase font-bold tracking-wider mb-1">geographical zone</div>
-                  <div className="text-white font-bold uppercase text-[11px] tracking-wide text-violet-brand flex items-center gap-1">
-                    <Globe className="h-3.5 w-3.5 shrink-0" />
-                    {selectedReport.country || "GLOBAL ZONE"}
+                <div className="p-2.5 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
+                  <div className="text-black font-bold mb-0.5 text-[11px]">Location</div>
+                  <div className="text-black font-bold text-xs flex items-center gap-1">
+                    <Globe className="h-3.5 w-3.5 text-[#11382B] shrink-0" />
+                    {selectedReport.country || "Global"}
                   </div>
                 </div>
-                <div className="p-3 bg-navy-dark/60 rounded-xl border border-blue-brand/10 col-span-2 sm:col-span-1">
-                  <div className="text-slate-500 uppercase font-bold tracking-wider mb-1">dispatch operator</div>
-                  <div className="text-white font-bold text-[11px] truncate">
-                    {selectedReport.userEmail || "Anonymous Submitter"}
+                <div className="p-2.5 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
+                  <div className="text-black font-bold mb-0.5 text-[11px]">Submitter</div>
+                  <div className="text-black font-bold text-xs truncate">
+                    {selectedReport.userEmail || "Anonymous"}
                   </div>
                 </div>
               </div>
 
-              {/* Complete reported text payload in monospaced format */}
+              {/* Complete reported text payload */}
               <div>
-                <div className="flex justify-between items-end mb-2 font-mono text-[9px] uppercase tracking-widest text-slate-400">
-                  <span>complete signature byte data</span>
-                  <span>{new Date(selectedReport.createdAt).toLocaleString()}</span>
+                <div className="flex justify-between items-end mb-1.5 text-xs text-black font-bold">
+                  <span>Reported Text</span>
+                  <span>{new Date(selectedReport.createdAt).toLocaleDateString()}</span>
                 </div>
-                <div className="max-h-[300px] overflow-y-auto w-full rounded-xl border border-blue-brand/15 bg-navy-dark p-4 text-white text-xs leading-relaxed font-mono whitespace-pre-wrap select-all">
+                <div className="max-h-[260px] overflow-y-auto w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3 text-black text-xs leading-relaxed font-sans whitespace-pre-wrap select-all font-medium">
                   {selectedReport.reportedMessage}
                 </div>
               </div>
 
               {/* Actions row inside drawer */}
-              <div className="pt-4 border-t border-blue-brand/5 flex items-center justify-between gap-4 font-mono text-[10px]">
+              <div className="pt-2 border-t border-[#E5E0D8] flex items-center justify-between gap-2.5">
                 <button
                   onClick={() => handleCopyPayload(selectedReport.reportedMessage, selectedReport.id)}
-                  className="px-5 py-2.5 rounded-xl btn-cyber text-[10px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5 cursor-pointer animate-flicker font-sans"
+                  className="btn-pine px-4 py-2 rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5 cursor-pointer"
                 >
                   {copiedId === selectedReport.id ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-navy animate-scale-in" />
-                      Payload Copied
+                      <Check className="h-3.5 w-3.5 text-white animate-scale-in" />
+                      Copied
                     </>
                   ) : (
                     <>
                       <Copy className="h-3.5 w-3.5" />
-                      Copy Payload Content
+                      Copy Message
                     </>
                   )}
                 </button>
 
                 <button
                   onClick={() => setSelectedReport(null)}
-                  className="px-5 py-2.5 rounded-xl border border-blue-brand/15 bg-navy-dark text-blue-brand font-semibold hover:bg-white/5 transition-all cursor-pointer uppercase tracking-widest text-[9px]"
+                  className="px-4 py-2 rounded-xl bg-white text-black border-1.5 border-[#E5E0D8] hover:border-black hover:bg-[#FAF8F5] text-xs font-bold shadow-xs cursor-pointer transition-all"
                 >
-                  Close Inspection
+                  Close
                 </button>
               </div>
 

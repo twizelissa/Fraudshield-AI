@@ -9,9 +9,9 @@ interface RiskGaugeProps {
 }
 
 function getGaugeColor(score: number) {
-  if (score <= 30) return "#00f2fe"; // Cyber Cyan
-  if (score <= 70) return "#4f46e5"; // Neon Indigo
-  return "#d946ef"; // Cyber Violet
+  if (score <= 30) return "#16A34A"; // Crisp pine green
+  if (score <= 70) return "#D97706"; // Warm amber
+  return "#DC2626"; // Crimson
 }
 
 export default function RiskGauge({ score, riskLevel, size = 160 }: RiskGaugeProps) {
@@ -31,7 +31,7 @@ export default function RiskGauge({ score, riskLevel, size = 160 }: RiskGaugePro
     return () => clearTimeout(timer);
   }, [score]);
 
-  const radius = (size - 24) / 2; // Sleek padding for radar ring
+  const radius = (size - 24) / 2;
   const color = getGaugeColor(score);
 
   // SVG arc: start from bottom-left, sweep 270deg
@@ -58,70 +58,60 @@ export default function RiskGauge({ score, riskLevel, size = 160 }: RiskGaugePro
   const progressEndAngle = startAngle + (animatedScore / 100) * 270;
 
   return (
-    <div className="flex flex-col items-center gap-2 animate-scale-in">
+    <div className="flex flex-col items-center gap-3 animate-scale-in">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="transform rotate-0">
-          {/* Radar outer dashed ring - high-tech radar grid */}
+          {/* Outer subtle ring */}
           <circle
             cx={cx}
             cy={cy}
-            r={radius + 8}
+            r={radius + 6}
             fill="none"
-            stroke={color}
+            stroke="#E5E0D8"
             strokeWidth="1"
-            strokeDasharray="4 5"
-            className="opacity-20 animate-pulse"
+            className="opacity-70"
           />
 
-          {/* Background arc - sleek dark track */}
+          {/* Background track */}
           <path
             d={describeArc(startAngle, endAngle)}
             fill="none"
-            stroke="#1e293b"
-            strokeWidth="5"
+            stroke="#FAF8F5"
+            strokeWidth="7"
             strokeLinecap="round"
-            className="opacity-30"
           />
 
-          {/* Progress arc - glowing neon vector */}
+          {/* Progress arc */}
           {animatedScore > 0 && (
             <path
               d={describeArc(startAngle, Math.min(progressEndAngle, endAngle - 0.01))}
               fill="none"
               stroke={color}
-              strokeWidth="5"
+              strokeWidth="7"
               strokeLinecap="round"
-              className="filter drop-shadow-[0_0_8px_#00f2fe]"
-              style={{
-                filter: `drop-shadow(0 0 6px ${color})`,
-              }}
+              className="transition-all duration-300"
             />
           )}
         </svg>
 
-        {/* Center text - neon typography glow */}
+        {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
-            className="text-4xl font-extrabold tabular-nums leading-none tracking-widest font-mono"
-            style={{ 
-              color,
-              textShadow: `0 0 12px ${color}60`
-            }}
+            className="text-4xl font-extrabold tabular-nums leading-none tracking-tight text-[#111827]"
           >
             {animatedScore}
           </span>
-          <span className="text-[7.5px] font-black text-slate-500 mt-1 uppercase tracking-widest font-mono">Buffer Risk</span>
+          <span className="text-[10px] font-bold text-black mt-1.5 uppercase tracking-wider">Risk Score</span>
         </div>
       </div>
 
-      {/* Risk level label - sleek dark cyber badge */}
+      {/* Risk level label - editorial pill */}
       <div
-        className="px-2.5 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase border font-mono"
+        className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide border transition-all"
         style={{
-          backgroundColor: `${color}10`,
-          color,
-          borderColor: `${color}30`,
-          boxShadow: `0 0 10px ${color}10`
+          backgroundColor: score <= 30 ? "#F0FDF4" : score <= 70 ? "#FEF3C7" : "#FEF2F2",
+          color: score <= 30 ? "#166534" : score <= 70 ? "#92400E" : "#991B1B",
+          borderColor: score <= 30 ? "#BBF7D0" : score <= 70 ? "#FDE68A" : "#FECACA",
         }}
       >
         {riskLevel}

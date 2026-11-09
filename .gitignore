@@ -43,3 +43,6 @@ prisma/*.db-journal
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local test artifacts
+.playwright-mcp/

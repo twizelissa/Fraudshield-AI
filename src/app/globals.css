@@ -1,264 +1,209 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Space Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --color-navy: #030712;
-  --color-navy-dark: #010204;
-  --color-charcoal: #64748b;
-  --color-blue-brand: #00f2fe; /* Holographic Cyan */
-  --color-violet-brand: #d946ef; /* Cyber Violet */
-  --color-indigo-brand: #4f46e5; /* Neon Indigo */
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+
+  --color-warm-bg: #F8F6F0;
+  --color-warm-card: #FFFFFF;
+  --color-warm-surface: #FAF8F5;
+  --color-warm-border: #E5E0D8;
+  --color-warm-border-strong: #D5CFC5;
+
+  --color-pine: #11382B;
+  --color-pine-hover: #0C271E;
+  --color-pine-light: #F0FDF4;
+  --color-pine-border: #BBF7D0;
+
+  --color-amber-accent: #D97706;
+  --color-amber-light: #FEF3C7;
+  --color-amber-text: #92400E;
+
+  --color-obsidian: #111827;
+  --color-charcoal: #374151;
+  --color-taupe: #000000;
+  --color-taupe-light: #111827;
+
+  --color-crimson: #DC2626;
+  --color-crimson-light: #FEF2F2;
+  --color-crimson-text: #991B1B;
 }
 
-/* Base resets */
+/* Base Resets */
 html {
   scroll-behavior: smooth;
+  background-color: #F8F6F0;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #030712;
-  color: #f8fafc;
+  background-color: #F8F6F0;
+  color: #111827;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Futuristic Repeating Cyber-Grid */
-.cyber-grid {
-  background-image: 
-    linear-gradient(rgba(0, 242, 254, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 242, 254, 0.02) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Editorial Card & Surfaces */
+.card-editorial {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Cyberpunk Mesh Glow Orbs */
-.hero-bg {
-  position: relative;
-  background-color: #030712;
-  overflow: hidden;
+.card-editorial:hover {
+  border-color: #D5CFC5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-.hero-bg::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: 5%;
-  width: 50%;
-  height: 50%;
-  background: radial-gradient(circle, rgba(0, 242, 254, 0.06) 0%, transparent 65%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
+/* Primary Pine Green Button */
+.btn-pine {
+  background-color: #11382B;
+  color: #FFFFFF;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.hero-bg::after {
-  content: "";
-  position: absolute;
-  bottom: 0%;
-  right: -5%;
-  width: 45%;
-  height: 45%;
-  background: radial-gradient(circle, rgba(217, 70, 239, 0.06) 0%, transparent 65%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
+.btn-pine:hover {
+  background-color: #0C271E;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(17, 56, 43, 0.15);
 }
 
-.dark-mesh-bg {
-  position: relative;
-  background: #010204;
-  overflow: hidden;
-}
-
-.dark-mesh-bg::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: 10%;
-  width: 60%;
-  height: 60%;
-  background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 60%);
-  filter: blur(80px);
-  pointer-events: none;
-}
-
-/* Holographic Glassmorphic Card System */
-.glass-card {
-  background: rgba(11, 19, 41, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 242, 254, 0.12);
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.4),
-    0 0 15px rgba(0, 242, 254, 0.03),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card:hover {
-  border-color: rgba(0, 242, 254, 0.25);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(0, 242, 254, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.08);
-}
-
-/* Custom Holographic Double-Border Micro Panel */
-.cyber-icon-panel {
-  background: rgba(11, 19, 41, 0.8);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  box-shadow: 
-    0 0 12px rgba(0, 242, 254, 0.15),
-    inset 0 0 6px rgba(0, 242, 254, 0.1);
-  position: relative;
-  transition: all 0.25s ease;
-}
-
-.cyber-icon-panel::before {
-  content: "";
-  position: absolute;
-  inset: -3.5px;
-  border: 1px solid rgba(217, 70, 239, 0.25);
-  border-radius: inherit;
-  pointer-events: none;
-  transition: all 0.25s ease;
-}
-
-.cyber-icon-panel:hover {
-  border-color: rgba(0, 242, 254, 0.6);
-  box-shadow: 
-    0 0 18px rgba(0, 242, 254, 0.35),
-    inset 0 0 8px rgba(0, 242, 254, 0.2);
-}
-
-.cyber-icon-panel:hover::before {
-  border-color: rgba(217, 70, 239, 0.5);
-}
-
-/* High-Contrast Interactive Hover Lift */
-.hover-lift {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  border-color: rgba(217, 70, 239, 0.4);
-  box-shadow: 
-    0 20px 30px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(217, 70, 239, 0.1);
-}
-
-/* Holographic Cyber Gradient Text */
-.text-gradient {
-  background: linear-gradient(135deg, #ffffff 40%, #00f2fe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-neon {
-  background: linear-gradient(135deg, #00f2fe 0%, #d946ef 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* High-Tech Glowing Input */
-.saas-input {
-  background: rgba(1, 2, 4, 0.6);
-  border: 1px solid rgba(0, 242, 254, 0.15);
-  transition: all 0.2s ease;
-}
-
-.saas-input:focus {
-  border-color: #00f2fe;
-  box-shadow: 
-    0 0 15px rgba(0, 242, 254, 0.15),
-    inset 0 1px 1px rgba(0, 242, 254, 0.05);
-}
-
-/* Glowing Neon Cyan Button (.btn-cyber) */
-.btn-cyber {
-  background: linear-gradient(135deg, #00f2fe 0%, #4f46e5 100%);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  color: #030712;
-}
-
-.btn-cyber:hover {
-  box-shadow: 
-    0 0 25px rgba(0, 242, 254, 0.5),
-    0 0 40px rgba(79, 70, 229, 0.2);
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #00f2fe 20%, #d946ef 100%);
-}
-
-.btn-cyber:active {
+.btn-pine:active {
   transform: translateY(0);
 }
 
-/* Radar Sweep Keyframe */
-@keyframes radar-sweep {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Secondary Neutral Outline Button */
+.btn-outline-warm {
+  background-color: #FFFFFF;
+  color: #111827;
+  border: 1px solid #E5E0D8;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.radar-sweep-effect {
-  animation: radar-sweep 6s linear infinite;
+.btn-outline-warm:hover {
+  background-color: #F4F0E8;
+  border-color: #D5CFC5;
 }
 
-/* Keyframe Animations */
+/* Clean Input Style */
+.input-warm {
+  background-color: #FAF8F5;
+  border: 1px solid #E5E0D8;
+  border-radius: 0.75rem;
+  color: #111827;
+  transition: all 0.2s ease;
+}
+
+.input-warm:focus {
+  background-color: #FFFFFF;
+  border-color: #11382B;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(17, 56, 43, 0.08);
+}
+
+/* Pill Badges */
+.badge-warm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #FAF8F5;
+  border: 1px solid #E5E0D8;
+  color: #111827;
+}
+
+.badge-amber {
+  background-color: #FEF3C7;
+  border: 1px solid #FCD34D;
+  color: #92400E;
+}
+
+.badge-pine {
+  background-color: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #166534;
+}
+
+.badge-crimson {
+  background-color: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+}
+
+/* Subtle Step Numbers */
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background-color: #111827;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Smooth Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.975); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes holographic-flicker {
-  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-    opacity: 0.99;
-    filter: drop-shadow(0 0 1px rgba(0, 242, 254, 0.5));
+  from {
+    opacity: 0;
+    transform: scale(0.98);
   }
-  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-    opacity: 0.4;
-    filter: none;
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-flicker {
-  animation: holographic-flicker 5s linear infinite;
-}
-
-/* Custom Scrollbar for Terminals */
+/* Clean Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #010204;
+  background: #F8F6F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 242, 254, 0.25);
+  background: #D5CFC5;
   border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00f2fe;
-  box-shadow: 0 0 10px #00f2fe;
+  background: #B8B0A2;
 }

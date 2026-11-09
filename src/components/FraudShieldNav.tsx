@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/check", label: "Scanner console" },
-  { href: "/threats", label: "Threat Database" },
-  { href: "/about", label: "Threat intelligence" },
-  { href: "/report", label: "Submit threat" },
+  { href: "/check", label: "Scanner" },
+  { href: "/threats", label: "Threats" },
+  { href: "/about", label: "About" },
+  { href: "/report", label: "Report" },
 ];
 
 export default function FraudShieldNav() {
@@ -19,21 +19,22 @@ export default function FraudShieldNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-4 z-50 mx-auto max-w-5xl rounded-2xl border border-blue-brand/15 bg-navy/70 backdrop-blur-md shadow-2xl shadow-black/80 px-4 py-1 animate-fade-in transition-all">
-      <div className="flex items-center justify-between px-4 py-3">
-        {/* Logo with holographic flicker */}
-        <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="h-9 w-9 rounded-xl bg-blue-brand/10 border border-blue-brand/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.1)] group-hover:border-violet-brand/50 transition-all overflow-hidden p-1">
+    <header className="sticky top-0 z-50 w-full border-b border-[#E5E0D8] bg-white/95 backdrop-blur-md transition-all">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+        {/* Clean minimal app brandmark */}
+        <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
+          <div className="h-8 w-8 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center shadow-2xs group-hover:border-[#11382B] transition-all p-1.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.png" alt="FraudShield AI Logo" className="h-full w-full object-contain animate-pulse" />
+            <img src="/icon.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
           </div>
-          <span className="text-lg font-bold tracking-wider text-white uppercase flex items-center">
-            FraudShield <span className="text-gradient-neon font-black ml-1.5 tracking-widest text-sm uppercase">Console</span>
+          <span className="text-lg font-extrabold tracking-tight text-black">
+            FraudShield
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1.5">
+        {/* Desktop Nav - App segment pills */}
+        <nav className="hidden md:flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#E5E0D8]">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -41,16 +42,13 @@ export default function FraudShieldNav() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-200 cursor-pointer",
+                  "px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 cursor-pointer",
                   isActive
-                    ? "text-blue-brand bg-blue-brand/5 border border-blue-brand/10 shadow-[0_0_10px_rgba(0,242,254,0.05)]"
-                    : "text-slate-400 hover:text-white hover:bg-white/5 border border-transparent"
+                    ? "text-white bg-[#11382B] shadow-2xs"
+                    : "text-black hover:text-[#11382B] hover:bg-white"
                 )}
               >
                 {link.label}
-                {isActive && (
-                  <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[1.5px] rounded-full bg-blue-brand shadow-[0_0_8px_#00f2fe]" />
-                )}
               </Link>
             );
           })}
@@ -60,15 +58,16 @@ export default function FraudShieldNav() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/check"
-            className="btn-cyber px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="btn-pine px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer group"
           >
-            Launch Scanner
+            Scan
+            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden text-slate-400 hover:text-white p-2 rounded-lg hover:bg-white/5 transition-colors border border-transparent hover:border-blue-brand/10"
+          className="md:hidden text-black p-2 rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] hover:bg-white transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -76,9 +75,9 @@ export default function FraudShieldNav() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu dropdown */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-blue-brand/10 bg-navy/95 px-4 pb-6 pt-3 rounded-b-2xl animate-scale-in">
+        <div className="md:hidden border-t border-[#E5E0D8] bg-white px-4 pb-6 pt-3 shadow-lg animate-scale-in">
           <nav className="flex flex-col gap-1.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -88,10 +87,10 @@ export default function FraudShieldNav() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "px-4 py-3.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all",
+                    "px-4 py-2.5 rounded-xl text-xs font-bold transition-all",
                     isActive
-                      ? "bg-blue-brand/10 text-blue-brand border border-blue-brand/10"
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
+                      ? "bg-[#11382B] text-white"
+                      : "text-black hover:text-[#11382B] hover:bg-[#FAF8F5]"
                   )}
                 >
                   {link.label}
@@ -101,9 +100,10 @@ export default function FraudShieldNav() {
             <Link
               href="/check"
               onClick={() => setMobileOpen(false)}
-              className="btn-cyber mt-4 px-4 py-3.5 rounded-xl text-xs font-black text-center uppercase tracking-widest shadow-md cursor-pointer"
+              className="btn-pine mt-2 px-4 py-2.5 rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
-              Launch Scanner
+              Scan
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </nav>
         </div>

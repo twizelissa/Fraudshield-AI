@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 import FraudShieldNav from "@/components/FraudShieldNav";
-
+import { ShieldCheck, ArrowRight, Activity } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "FraudShield AI — Cybersecurity & Scam Prevention",
+  title: "FraudShield — Scam Detection & Security Verification",
   description:
-    "Professional protection against digital scams. Detect fake jobs, scholarships, grants, phishing messages, and suspicious online offers. Stay safe from online fraud.",
-  keywords: [
-    "cybersecurity",
-    "scam prevention",
-    "fraud detection",
-    "phishing checker",
-    "scam protection",
-    "digital safety",
-  ],
-  openGraph: {
-    title: "FraudShield AI — Scam Prevention",
-    description: "Analyze suspicious messages and stay safe from scams.",
-    type: "website",
-  },
+    "Verify suspicious messages, offers, and links. Detect fraud instantly.",
 };
 
 export default function RootLayout({
@@ -29,34 +17,89 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-navy min-h-screen">
+      <body className="antialiased bg-[#F8F6F0] text-black min-h-screen flex flex-col font-sans selection:bg-[#11382B] selection:text-white">
         <FraudShieldNav />
-        <main className="min-h-[70vh]">{children}</main>
-        
-        {/* High-fidelity Cyberpunk Console Footer */}
-        <footer className="border-t border-blue-brand/10 bg-navy-dark/90 backdrop-blur-md mt-20">
-          <div className="mx-auto max-w-5xl px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-8 font-mono text-[10px]">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-white">
-                <div className="h-8 w-8 rounded-lg bg-blue-brand/5 border border-blue-brand/15 flex items-center justify-center shadow-[0_0_15px_rgba(0,242,254,0.05)] overflow-hidden p-0.5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icon.png" alt="FraudShield AI Logo" className="h-full w-full object-contain animate-pulse" />
+        <main className="flex-1">{children}</main>
+
+        {/* Footer in button color: Pine Green #11382B */}
+        <footer className="border-t border-[#0C271E] bg-[#11382B] text-white mt-16">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8 items-start">
+
+              {/* Brand Column */}
+              <div className="md:col-span-5 space-y-3">
+                <Link href="/" className="flex items-center gap-2.5 group">
+                  <div className="h-8 w-8 rounded-xl bg-white border border-[#E5E0D8] flex items-center justify-center p-1.5 shadow-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/icon.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
+                  </div>
+                  <span className="text-lg font-extrabold tracking-tight text-white">
+                    FraudShield
+                  </span>
+                </Link>
+                <p className="text-xs text-white/90 leading-relaxed max-w-sm font-medium">
+                  Real-time scam verification and threat detection.
+                </p>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#0C271E] text-[#A7F3D0] border border-[#166534]">
+                    <Activity className="h-3 w-3 text-[#34D399]" />
+                    <span>Real-time Scam Detection</span>
+                  </div>
                 </div>
-                <span className="font-bold tracking-widest uppercase text-[13px]">
-                  FraudShield <span className="text-blue-brand">AI</span>
-                </span>
               </div>
-              <p className="text-slate-500 text-xs leading-relaxed max-w-xs font-sans">
-                Protecting individuals and organizations from digital fraud and social engineering threats.
-              </p>
+
+              {/* Navigation Links Column */}
+              <div className="md:col-span-3 space-y-2">
+                <div className="text-xs font-bold uppercase tracking-wider text-white">Navigation</div>
+                <ul className="space-y-1.5 text-xs font-medium">
+                  <li>
+                    <Link href="/" className="text-white/85 hover:text-white transition-colors">Home</Link>
+                  </li>
+                  <li>
+                    <Link href="/check" className="text-white/85 hover:text-white transition-colors">Scanner</Link>
+                  </li>
+                  <li>
+                    <Link href="/threats" className="text-white/85 hover:text-white transition-colors">Threats</Link>
+                  </li>
+                  <li>
+                    <Link href="/about" className="text-white/85 hover:text-white transition-colors">About</Link>
+                  </li>
+                  <li>
+                    <Link href="/report" className="text-white/85 hover:text-white transition-colors">Report</Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Advisory Card Column */}
+              <div className="md:col-span-4">
+                <div className="rounded-xl border border-[#166534] bg-[#0C271E]/80 p-4 space-y-2">
+                  <div className="flex items-center gap-1.5 text-[#FDE68A]">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    <span className="text-xs font-bold uppercase tracking-wider">Safety Tip</span>
+                  </div>
+                  <p className="text-xs text-white/90 leading-relaxed font-medium">
+                    Legitimate employers, grants, and schools never ask for advance fees or credentials via SMS or WhatsApp.
+                  </p>
+                  <div className="pt-0.5">
+                    <Link
+                      href="/check"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#A7F3D0] hover:text-white transition-colors"
+                    >
+                      Verify offer <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div className="text-center sm:text-right space-y-2">
-              <p className="text-slate-500 leading-normal max-w-xs sm:max-w-none">
-                SECURE CONSOLE ACTIVE: Educational cybersecurity advisory protocol.
-              </p>
-              <p className="text-slate-400 leading-normal">
-                © 2026 FraudShield AI — Digital Safety Project
-              </p>
+
+            {/* Bottom Row */}
+            <div className="border-t border-[#166534] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/80">
+              <p>© 2026 FraudShield</p>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#34D399] animate-pulse"></span>
+                <span className="text-white font-medium">System Online</span>
+              </div>
             </div>
           </div>
         </footer>

@@ -29,7 +29,7 @@ export default function ReportPage() {
     fetch("/api/fraudshield/auth/user")
       .then((r) => r.json())
       .then((d) => setUser(d.user))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setAuthChecked(true));
   }, []);
 
@@ -96,57 +96,53 @@ export default function ReportPage() {
   };
 
   return (
-    <div className="bg-navy min-h-screen cyber-grid px-4 py-20">
+    <div className="bg-[#F8F6F0] min-h-screen px-4 py-16">
       <div className="mx-auto max-w-2xl">
-        {/* Header */}
-        <div className="text-center mb-10 animate-fade-in">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-red-500/20 bg-red-500/5 px-4 py-1.5 text-[9px] font-bold text-red-400 mb-5 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(244,63,94,0.05)]">
-            <Terminal className="h-3.5 w-3.5 animate-pulse text-red-500" />
-            Threat Dispatcher
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3 tracking-widest uppercase">
-            Submit Threat Payload
+        {/* Header - concise, app-like */}
+        <div className="text-center mb-8 animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
+            Report a Scam
           </h1>
-          <p className="text-slate-400 max-w-md mx-auto leading-relaxed font-medium text-xs sm:text-sm">
-            Help improve our analysis engine by contributing verified scam signatures to the decentralized threat database.
+          <p className="text-black text-xs sm:text-sm font-medium mt-1">
+            Submit suspicious messages to help protect others.
           </p>
         </div>
 
         {!authChecked ? null : !user ? (
-          <div className="glass-card w-full max-w-sm mx-auto rounded-2xl border border-blue-brand/20 bg-navy-dark p-8 shadow-2xl space-y-6 text-center animate-scale-in">
-            <Lock className="h-8 w-8 text-blue-brand mx-auto" />
+          <div className="card-editorial w-full max-w-sm mx-auto rounded-2xl border border-[#E5E0D8] bg-white p-7 shadow-xs space-y-5 text-center animate-scale-in">
+            <Lock className="h-7 w-7 text-[#11382B] mx-auto" />
             <div>
-              <h2 className="text-xl font-bold text-white">Sign up to submit</h2>
-              <p className="text-sm text-slate-400 mt-1.5">
-                Create a free account with Google to report a scam message.
+              <h2 className="text-base font-bold text-black">Sign in to report</h2>
+              <p className="text-xs text-black mt-1 font-medium">
+                Sign in with Google to submit scam messages.
               </p>
             </div>
             <GoogleSignInButton onCredential={handleCredential} text="signup_with" />
-            {error && <p className="text-xs text-red-400">{error}</p>}
+            {error && <p className="text-xs text-[#DC2626] font-bold">{error}</p>}
           </div>
         ) : success ? (
-          <div className="p-10 text-center bg-navy-dark border border-blue-brand/20 rounded-2xl shadow-2xl animate-scale-in">
-            <div className="flex justify-center mb-5">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-brand/5 text-blue-brand border border-blue-brand/20 shadow-[0_0_15px_rgba(0,242,254,0.05)] animate-pulse">
-                <CheckCircle className="h-6 w-6" />
+          <div className="card-editorial p-8 text-center bg-white border border-[#E5E0D8] rounded-2xl shadow-xs animate-scale-in">
+            <div className="flex justify-center mb-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0FDF4] text-[#166534] border border-[#BBF7D0]">
+                <CheckCircle className="h-5 w-5" />
               </div>
             </div>
-            <h2 className="text-xl font-bold text-white mb-2 tracking-widest uppercase font-mono">Payload Transmitted</h2>
-            <p className="text-slate-400 mb-6 leading-relaxed font-medium text-xs sm:text-sm">
-              Your submission has been cataloged. Threat telemetry helps protect the entire FraudShield console framework.
+            <h2 className="text-base font-bold text-black mb-1 tracking-tight">Report Submitted</h2>
+            <p className="text-black mb-5 leading-relaxed font-medium text-xs">
+              Thank you. Your report helps alert other users.
             </p>
             <button
               onClick={() => setSuccess(false)}
-              className="px-6 py-2.5 rounded-xl btn-cyber text-xs font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="px-5 py-2.5 rounded-xl btn-pine text-xs font-bold shadow-xs cursor-pointer"
             >
-              Submit Another Payload
+              Submit Another Report
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="glass-card bg-navy-dark/90 rounded-3xl border border-blue-brand/20 p-6 sm:p-8 shadow-2xl space-y-5 animate-scale-in">
-            <div className="flex items-center justify-between gap-3 text-xs text-slate-400">
+          <form onSubmit={handleSubmit} className="card-editorial bg-white rounded-2xl border border-[#E5E0D8] p-5 sm:p-7 shadow-xs space-y-4 animate-scale-in">
+            <div className="flex items-center justify-between gap-3 text-xs text-black font-semibold">
               <span className="truncate">Signed in as {user.email}</span>
-              <button type="button" onClick={handleSignOut} className="text-blue-brand hover:underline cursor-pointer shrink-0">
+              <button type="button" onClick={handleSignOut} className="text-[#11382B] font-bold hover:underline cursor-pointer shrink-0">
                 Sign out
               </button>
             </div>
@@ -154,10 +150,9 @@ export default function ReportPage() {
             <div>
               <label
                 htmlFor="reportedMessage"
-                className="block text-[9px] font-bold text-blue-brand/70 uppercase tracking-widest mb-2.5 flex items-center gap-1 font-mono"
+                className="block text-xs font-bold text-black mb-1.5"
               >
-                <Terminal className="h-3 w-3 animate-flicker" />
-                Linguistic Payload Content <span className="text-red-500">*</span>
+                Message Content <span className="text-[#DC2626]">*</span>
               </label>
               <textarea
                 id="reportedMessage"
@@ -165,9 +160,9 @@ export default function ReportPage() {
                 required
                 value={form.reportedMessage}
                 onChange={handleChange}
-                placeholder="Paste suspicious text email headers, body contents, SMS metadata, or phishing URLs here to index..."
-                className="w-full rounded-xl border border-blue-brand/15 bg-navy-dark px-4 py-3.5 text-sm text-white placeholder:text-slate-700 focus:border-blue-brand focus:outline-none focus:ring-4 focus:ring-blue-brand/5 transition-all resize-none leading-relaxed saas-input shadow-inner font-mono"
-                rows={7}
+                placeholder="Paste suspicious text email, SMS, or WhatsApp message here..."
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-3 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all resize-none leading-relaxed font-sans font-medium"
+                rows={6}
               />
             </div>
 
@@ -175,10 +170,9 @@ export default function ReportPage() {
             <div>
               <label
                 htmlFor="category"
-                className="block text-[9px] font-bold text-blue-brand/70 uppercase tracking-widest mb-2.5 flex items-center gap-1 font-mono"
+                className="block text-xs font-bold text-black mb-1.5"
               >
-                <Terminal className="h-3 w-3" />
-                Indexed Risk Signature
+                Category
               </label>
               <div className="relative">
                 <select
@@ -186,66 +180,62 @@ export default function ReportPage() {
                   name="category"
                   value={form.category}
                   onChange={handleChange}
-                  className="saas-input w-full appearance-none rounded-xl border border-blue-brand/15 bg-navy-dark px-4 py-3.5 text-sm text-white focus:border-blue-brand focus:outline-none focus:ring-4 focus:ring-blue-brand/5 transition-all font-semibold shadow-sm cursor-pointer font-mono"
+                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-semibold cursor-pointer"
                 >
-                  <option value="" className="bg-navy-dark text-white">Select Threat Category...</option>
+                  <option value="" className="bg-white text-black font-medium">Select Category...</option>
                   {scamCategories.map((cat) => (
-                    <option key={cat} value={cat} className="bg-navy-dark text-white font-mono">
+                    <option key={cat} value={cat} className="bg-white text-black font-medium">
                       {cat}
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-brand/50" />
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-black" />
               </div>
             </div>
 
             <div>
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-[9px] font-bold text-blue-brand/70 uppercase tracking-widest mb-2.5 flex items-center gap-1 font-mono"
-                >
-                  <Terminal className="h-3 w-3" />
-                  Target Geolocation
-                </label>
-                <input
-                  id="country"
-                  name="country"
-                  type="text"
-                  value={form.country}
-                  onChange={handleChange}
-                  placeholder="e.g. Kenya, USA, Nigeria"
-                  className="saas-input w-full rounded-xl border border-blue-brand/15 bg-navy-dark px-4 py-3 text-sm text-white placeholder:text-slate-700 focus:border-blue-brand focus:outline-none focus:ring-4 focus:ring-blue-brand/5 transition-all shadow-sm font-mono"
-                />
-              </div>
-
+              <label
+                htmlFor="country"
+                className="block text-xs font-bold text-black mb-1.5"
+              >
+                Country (optional)
+              </label>
+              <input
+                id="country"
+                name="country"
+                type="text"
+                value={form.country}
+                onChange={handleChange}
+                placeholder="e.g. Kenya, USA, Nigeria"
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-medium"
+              />
             </div>
 
             {/* Error */}
             {error && (
-              <div className="flex items-start gap-2.5 rounded-xl bg-violet-950/20 border border-violet-950/50 p-3.5 shadow-sm animate-scale-in text-violet-300">
-                <AlertCircle className="h-4.5 w-4.5 text-violet-brand shrink-0 mt-0.5" />
-                <p className="text-xs font-semibold">{error}</p>
+              <div className="flex items-start gap-2 rounded-xl bg-[#FEF2F2] border border-[#FCA5A5] p-3 text-xs text-[#991B1B]">
+                <AlertCircle className="h-4 w-4 text-[#DC2626] shrink-0 mt-0.5" />
+                <p className="font-semibold">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl btn-cyber py-4 text-xs font-black text-navy shadow-xl hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 transition-all duration-200 cursor-pointer uppercase tracking-widest"
+              className="w-full flex items-center justify-center gap-2 rounded-xl btn-pine py-3 text-xs font-bold shadow-xs disabled:opacity-50 transition-all cursor-pointer"
             >
               {loading ? (
-                "Encrypting Telemetry Payload..."
+                "Submitting..."
               ) : (
                 <>
                   <Flag className="h-4 w-4" />
-                  Finalize Threat Dispatch
+                  Submit Report
                 </>
               )}
             </button>
 
-            <p className="text-center text-[10px] text-slate-500 font-medium px-4 leading-normal font-mono">
-              All dispatches are indexed securely. Submissions are strictly utilized for cyber intelligence and catalog signature optimization.
+            <p className="text-center text-xs text-black font-medium px-4 leading-normal">
+              Reports are verified and shared in the community threat feed.
             </p>
           </form>
         )}

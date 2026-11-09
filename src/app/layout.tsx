@@ -29,9 +29,8 @@ export default function RootLayout({
               {/* Brand Column */}
               <div className="md:col-span-5 space-y-3">
                 <Link href="/" className="flex items-center gap-2.5 group">
-                  <div className="h-8 w-8 rounded-xl bg-white border border-[#E5E0D8] flex items-center justify-center p-1.5 shadow-sm">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/icon.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
+                  <div className="h-8 w-8 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shadow-xs">
+                    <ShieldCheck className="h-4.5 w-4.5 text-white" />
                   </div>
                   <span className="text-lg font-extrabold tracking-tight text-white">
                     FraudShield
@@ -40,12 +39,6 @@ export default function RootLayout({
                 <p className="text-xs text-white/90 leading-relaxed max-w-sm font-medium">
                   Real-time scam verification and threat detection.
                 </p>
-                <div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#0C271E] text-[#A7F3D0] border border-[#166534]">
-                    <Activity className="h-3 w-3 text-[#34D399]" />
-                    <span>Real-time Scam Detection</span>
-                  </div>
-                </div>
               </div>
 
               {/* Navigation Links Column */}
@@ -67,15 +60,17 @@ export default function RootLayout({
                   <li>
                     <Link href="/report" className="text-white/85 hover:text-white transition-colors">Report</Link>
                   </li>
+                  <li>
+                    <Link href="/contact" className="text-white/85 hover:text-white transition-colors">Contact</Link>
+                  </li>
                 </ul>
               </div>
 
               {/* Advisory Card Column */}
               <div className="md:col-span-4">
                 <div className="rounded-xl border border-[#166534] bg-[#0C271E]/80 p-4 space-y-2">
-                  <div className="flex items-center gap-1.5 text-[#FDE68A]">
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    <span className="text-xs font-bold uppercase tracking-wider">Safety Tip</span>
+                  <div className="text-[#FDE68A] text-xs font-bold uppercase tracking-wider">
+                    Safety Tip
                   </div>
                   <p className="text-xs text-white/90 leading-relaxed font-medium">
                     Legitimate employers, grants, and schools never ask for advance fees or credentials via SMS or WhatsApp.
@@ -94,12 +89,8 @@ export default function RootLayout({
             </div>
 
             {/* Bottom Row */}
-            <div className="border-t border-[#166534] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/80">
+            <div className="border-t border-[#166534] pt-6 flex items-center justify-between text-xs text-white/80">
               <p>© 2026 FraudShield</p>
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#34D399] animate-pulse"></span>
-                <span className="text-white font-medium">System Online</span>
-              </div>
             </div>
           </div>
         </footer>

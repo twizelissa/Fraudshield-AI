@@ -106,7 +106,11 @@ export default function AdminPage() {
       setReports(result.data || []);
     } catch (err) {
       console.error(err);
-      setError("Failed to interface with threat database telemetry console.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to load threat reports. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }

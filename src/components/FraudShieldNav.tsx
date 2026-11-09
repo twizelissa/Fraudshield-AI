@@ -24,17 +24,16 @@ export default function FraudShieldNav() {
 
         {/* Clean minimal app brandmark */}
         <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
-          <div className="h-8 w-8 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center shadow-2xs group-hover:border-[#11382B] transition-all p-1.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
+          <div className="h-8 w-8 rounded-xl bg-[#11382B] flex items-center justify-center shadow-2xs group-hover:bg-[#0C271E] transition-all text-white">
+            <ShieldCheck className="h-4.5 w-4.5 text-white" />
           </div>
           <span className="text-lg font-extrabold tracking-tight text-black">
             FraudShield
           </span>
         </Link>
 
-        {/* Desktop Nav - App segment pills */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#E5E0D8]">
+        {/* Desktop Nav - Free-standing links without container */}
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -42,10 +41,10 @@ export default function FraudShieldNav() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 cursor-pointer",
+                  "text-xs font-bold transition-colors cursor-pointer",
                   isActive
-                    ? "text-white bg-[#11382B] shadow-2xs"
-                    : "text-black hover:text-[#11382B] hover:bg-white"
+                    ? "text-[#11382B]"
+                    : "text-black hover:text-[#11382B]"
                 )}
               >
                 {link.label}
@@ -57,10 +56,10 @@ export default function FraudShieldNav() {
         {/* CTA Button */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/check"
+            href="/contact"
             className="btn-pine px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer group"
           >
-            Scan
+            Contact
             <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
@@ -98,11 +97,11 @@ export default function FraudShieldNav() {
               );
             })}
             <Link
-              href="/check"
+              href="/contact"
               onClick={() => setMobileOpen(false)}
               className="btn-pine mt-2 px-4 py-2.5 rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
-              Scan
+              Contact
               <ArrowRight className="h-4 w-4" />
             </Link>
           </nav>

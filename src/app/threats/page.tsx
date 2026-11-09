@@ -78,34 +78,30 @@ export default function ThreatsPage() {
       if (catVal) qParams.append("category", catVal);
 
       const res = await fetch(`/api/fraudshield/complaints?${qParams.toString()}`);
+      if (!res.ok) {
+        throw new Error(`Server error (${res.status}). Please try again.`);
+      }
       const result = await res.json();
 
       if (!result.success) {
-        throw new Error(result.error || "Failed to fetch threat database");
+        throw new Error(result.error || "Unable to load threat reports.");
       }
       setReports(result.data || []);
     } catch (err) {
       console.error(err);
-      setError("Failed to interface with threat database telemetry console.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to load threat reports. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Mount logic - restore upvote lists and fetch
+  // Mount logic - fetch reports on load and when category changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchReports("", "");
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Watch for category selection changes (Trigger auto-reload)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchReports(search, category);
-    }, 0);
-    return () => clearTimeout(timer);
+    fetchReports(search, category);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 

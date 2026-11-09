@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, ShieldCheck } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import BrainChargerLogo from "@/components/BrainChargerLogo";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -22,12 +23,9 @@ export default function FraudShieldNav() {
     <header className="sticky top-0 z-50 w-full border-b border-[#E5E0D8] bg-white/95 backdrop-blur-md transition-all">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
-        {/* Clean minimal app brandmark */}
+        {/* Clean minimal app brandmark - pure SVG logo, no picture box */}
         <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
-          <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center shadow-2xs group-hover:border-[#11382B] transition-all p-1 overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brain_charger_logo.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
-          </div>
+          <BrainChargerLogo className="h-7 w-7 text-[#11382B] group-hover:scale-105 transition-transform shrink-0" />
           <span className="text-lg font-extrabold tracking-tight text-black">
             FraudShield
           </span>

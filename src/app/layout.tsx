@@ -2,12 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import FraudShieldNav from "@/components/FraudShieldNav";
-import { ShieldCheck, ArrowRight, Activity } from "lucide-react";
+import BrainChargerLogo from "@/components/BrainChargerLogo";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "FraudShield — Scam Detection & Security Verification",
   description:
     "Verify suspicious messages, offers, and links. Detect fraud instantly.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -29,10 +36,7 @@ export default function RootLayout({
               {/* Brand Column */}
               <div className="md:col-span-5 space-y-3">
                 <Link href="/" className="flex items-center gap-2.5 group">
-                  <div className="h-9 w-9 rounded-xl bg-white border border-[#E5E0D8] flex items-center justify-center p-1 shadow-sm overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/brain_charger_logo.png" alt="FraudShield Logo" className="h-full w-full object-contain" />
-                  </div>
+                  <BrainChargerLogo className="h-7 w-7 text-white shrink-0" />
                   <span className="text-lg font-extrabold tracking-tight text-white">
                     FraudShield
                   </span>

@@ -87,7 +87,7 @@ export default function AboutPage() {
                 key={group.title}
                 className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-start gap-3"
               >
-                <div className="h-8 w-8 rounded-lg bg-white border border-[#E5E0D8] flex items-center justify-center text-[#11382B] shrink-0 mt-0.5">
+                <div className="h-8 w-8 rounded-lg bg-white border border-[#E5E0D8] flex items-center justify-center text-[#0B6A3B] shrink-0 mt-0.5">
                   <group.icon className="h-4 w-4" />
                 </div>
                 <div>

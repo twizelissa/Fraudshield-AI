@@ -165,7 +165,7 @@ export default function ThreatsPage() {
           </div>
           <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
             <div className="text-xs font-bold text-black mb-0.5">Regions</div>
-            <div className="text-xl font-extrabold text-[#11382B] tracking-tight">{countriesPresent}</div>
+            <div className="text-xl font-extrabold text-[#0B6A3B] tracking-tight">{countriesPresent}</div>
           </div>
           <div className="card-editorial p-3.5 rounded-xl border border-[#E5E0D8] bg-white shadow-xs">
             <div className="text-xs font-bold text-black mb-0.5">Feed Status</div>
@@ -184,7 +184,7 @@ export default function ThreatsPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search threats or keywords..."
-                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] pl-9 pr-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-medium"
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] pl-9 pr-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all font-medium"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-black" />
             </div>
@@ -195,7 +195,7 @@ export default function ThreatsPage() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 pr-8 text-xs sm:text-sm text-black focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-semibold cursor-pointer"
+                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 pr-8 text-xs sm:text-sm text-black focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all font-semibold cursor-pointer"
                 >
                   <option value="" className="bg-white text-black font-medium">All Categories</option>
                   {categories.map((cat) => (
@@ -222,7 +222,7 @@ export default function ThreatsPage() {
         {loading ? (
           <div className="card-editorial rounded-2xl border border-[#E5E0D8] bg-white p-12 text-center shadow-xs animate-scale-in">
             <div className="flex justify-center mb-3">
-              <Loader2 className="h-7 w-7 text-[#11382B] animate-spin" />
+              <Loader2 className="h-7 w-7 text-[#0B6A3B] animate-spin" />
             </div>
             <h3 className="text-sm font-bold text-black mb-1">Loading reports...</h3>
             <p className="text-black text-xs font-medium">Fetching verified community threat signals.</p>
@@ -302,7 +302,7 @@ export default function ThreatsPage() {
                         {upvoteCount}
                       </button>
 
-                      <span className="text-[#11382B] font-bold text-xs flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                      <span className="text-[#0B6A3B] font-bold text-xs flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
                         Inspect
                         <ChevronRight className="h-3 w-3" />
                       </span>
@@ -328,14 +328,14 @@ export default function ThreatsPage() {
             {/* Header Control */}
             <div className="border-b border-[#E5E0D8] bg-[#FAF8F5] px-5 py-3.5 flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-[#11382B]" />
+                <Terminal className="h-4 w-4 text-[#0B6A3B]" />
                 <span className="text-xs font-bold text-black">
                   Report <code className="text-black ml-1 font-mono font-bold">#fs-{selectedReport.id.slice(0, 8)}</code>
                 </span>
               </div>
               <button
                 onClick={() => setSelectedReport(null)}
-                className="p-1 rounded-lg text-black hover:text-[#11382B] hover:bg-[#FAF8F5] transition-all cursor-pointer"
+                className="p-1 rounded-lg text-black hover:text-[#0B6A3B] hover:bg-[#FAF8F5] transition-all cursor-pointer"
                 aria-label="Close"
               >
                 <X className="h-4 w-4" />
@@ -348,14 +348,14 @@ export default function ThreatsPage() {
               <div className="grid grid-cols-2 gap-2.5 text-xs">
                 <div className="p-2.5 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
                   <div className="text-black font-bold mb-0.5 text-[11px]">Category</div>
-                  <div className="text-[#11382B] font-bold text-xs">
+                  <div className="text-[#0B6A3B] font-bold text-xs">
                     {selectedReport.category || "General"}
                   </div>
                 </div>
                 <div className="p-2.5 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
                   <div className="text-black font-bold mb-0.5 text-[11px]">Location</div>
                   <div className="text-black font-bold text-xs flex items-center gap-1">
-                    <Globe className="h-3.5 w-3.5 text-[#11382B] shrink-0" />
+                    <Globe className="h-3.5 w-3.5 text-[#0B6A3B] shrink-0" />
                     {selectedReport.country || "Global"}
                   </div>
                 </div>

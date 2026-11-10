@@ -11,8 +11,8 @@
   --color-warm-border: #E5E0D8;
   --color-warm-border-strong: #D5CFC5;
 
-  --color-pine: #11382B;
-  --color-pine-hover: #0C271E;
+  --color-pine: #0B6A3B;
+  --color-pine-hover: #084E2A;
   --color-pine-light: #F0FDF4;
   --color-pine-border: #BBF7D0;
 
@@ -61,7 +61,7 @@ body {
 
 /* Primary Pine Green Button */
 .btn-pine {
-  background-color: #11382B;
+  background-color: #0B6A3B;
   color: #FFFFFF;
   border-radius: 0.75rem;
   font-weight: 600;
@@ -70,7 +70,7 @@ body {
 }
 
 .btn-pine:hover {
-  background-color: #0C271E;
+  background-color: #084E2A;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(17, 56, 43, 0.15);
 }
@@ -105,7 +105,7 @@ body {
 
 .input-warm:focus {
   background-color: #FFFFFF;
-  border-color: #11382B;
+  border-color: #0B6A3B;
   outline: none;
   box-shadow: 0 0 0 3px rgba(17, 56, 43, 0.08);
 }

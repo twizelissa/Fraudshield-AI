@@ -5,7 +5,7 @@ interface BrainChargerLogoProps {
 }
 
 export default function BrainChargerLogo({
-  className = "h-7 w-7 text-[#11382B]",
+  className = "h-7 w-7 text-[#0B6A3B]",
 }: BrainChargerLogoProps) {
   return (
     <svg

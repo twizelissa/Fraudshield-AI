@@ -24,12 +24,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-[#F8F6F0] text-black min-h-screen flex flex-col font-sans selection:bg-[#11382B] selection:text-white">
+      <body className="antialiased bg-[#F8F6F0] text-black min-h-screen flex flex-col font-sans selection:bg-[#0B6A3B] selection:text-white">
         <FraudShieldNav />
         <main className="flex-1">{children}</main>
 
-        {/* Footer in button color: Pine Green #11382B */}
-        <footer className="border-t border-[#0C271E] bg-[#11382B] text-white mt-16">
+        {/* Footer in button color: Pine Green #0B6A3B */}
+        <footer className="border-t border-[#084E2A] bg-[#0B6A3B] text-white mt-16">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8 items-start">
 
@@ -73,7 +73,7 @@ export default function RootLayout({
 
               {/* Advisory Card Column */}
               <div className="md:col-span-4">
-                <div className="rounded-xl border border-[#166534] bg-[#0C271E]/80 p-4 space-y-2">
+                <div className="rounded-xl border border-[#166534] bg-[#084E2A]/80 p-4 space-y-2">
                   <div className="text-[#FDE68A] text-xs font-bold uppercase tracking-wider">
                     Safety Tip
                   </div>

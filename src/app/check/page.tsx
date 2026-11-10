@@ -118,7 +118,7 @@ export default function CheckPage() {
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value as MessageType)}
-                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-semibold cursor-pointer"
+                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all font-semibold cursor-pointer"
                 >
                   {messageTypes.map((type) => (
                     <option key={type.value} value={type.value} className="bg-white text-black font-medium">
@@ -144,7 +144,7 @@ export default function CheckPage() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Paste suspicious email, SMS, or job offer here..."
-                className="min-h-[180px] w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5 text-black text-xs sm:text-sm placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all leading-relaxed font-sans resize-y font-medium"
+                className="min-h-[180px] w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5 text-black text-xs sm:text-sm placeholder:text-black/50 focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all leading-relaxed font-sans resize-y font-medium"
               />
             </div>
 
@@ -167,7 +167,7 @@ export default function CheckPage() {
                     <button
                       key={msg.label}
                       onClick={() => setText(msg.text)}
-                      className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-1.5 text-xs font-bold text-black hover:bg-white hover:border-[#11382B] transition-all cursor-pointer shadow-2xs"
+                      className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-1.5 text-xs font-bold text-black hover:bg-white hover:border-[#0B6A3B] transition-all cursor-pointer shadow-2xs"
                     >
                       {msg.label}
                     </button>
@@ -206,7 +206,7 @@ export default function CheckPage() {
           {loading && (
             <div className="card-editorial rounded-2xl border border-[#E5E0D8] bg-white p-10 text-center shadow-xs animate-scale-in">
               <div className="flex justify-center mb-3">
-                <Loader2 className="h-8 w-8 text-[#11382B] animate-spin" />
+                <Loader2 className="h-8 w-8 text-[#0B6A3B] animate-spin" />
               </div>
               <h3 className="text-sm font-bold text-black mb-1">Scanning for scam patterns...</h3>
               <p className="text-black text-xs font-medium max-w-sm mx-auto">Evaluating payment demands, urgency triggers, and domain legitimacy.</p>

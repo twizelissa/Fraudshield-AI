@@ -96,7 +96,7 @@ export default function HomePage() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="h-8 w-8 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#11382B]">
+                  <div className="h-8 w-8 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#0B6A3B]">
                     <mod.icon className="h-4 w-4" />
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FAF8F5] border border-[#E5E0D8] text-black">
@@ -135,7 +135,7 @@ export default function HomePage() {
                 key={cat.label}
                 className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] hover:border-black transition-all flex items-start gap-3"
               >
-                <div className="h-8 w-8 rounded-lg bg-white border border-[#E5E0D8] flex items-center justify-center text-[#11382B] shrink-0 mt-0.5">
+                <div className="h-8 w-8 rounded-lg bg-white border border-[#E5E0D8] flex items-center justify-center text-[#0B6A3B] shrink-0 mt-0.5">
                   <cat.icon className="h-4 w-4" />
                 </div>
                 <div>
@@ -148,7 +148,7 @@ export default function HomePage() {
         </div>
 
         {/* Bottom Banner - Concise utility prompt */}
-        <div className="rounded-2xl bg-[#11382B] p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div className="rounded-2xl bg-[#0B6A3B] p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
           <div className="text-center sm:text-left space-y-1">
             <h3 className="text-base font-extrabold tracking-tight">Have a suspicious message right now?</h3>
             <p className="text-xs text-white/90 font-medium">Paste the text into the scanner for instant analysis.</p>

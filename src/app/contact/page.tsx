@@ -25,7 +25,7 @@ export default function ContactPage() {
         {/* Direct Channels Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-6 rounded-2xl bg-white border border-[#E5E0D8] space-y-3 shadow-xs">
-            <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#11382B]">
+            <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#0B6A3B]">
               <Mail className="h-4.5 w-4.5" />
             </div>
             <div>
@@ -34,7 +34,7 @@ export default function ContactPage() {
             </div>
             <a
               href="mailto:support@fraudshield.org"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#11382B] hover:underline pt-1"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0B6A3B] hover:underline pt-1"
             >
               support@fraudshield.org
               <ArrowRight className="h-3 w-3" />
@@ -42,7 +42,7 @@ export default function ContactPage() {
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-[#E5E0D8] space-y-3 shadow-xs">
-            <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#11382B]">
+            <div className="h-9 w-9 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex items-center justify-center text-[#0B6A3B]">
               <Shield className="h-4.5 w-4.5" />
             </div>
             <div>
@@ -51,7 +51,7 @@ export default function ContactPage() {
             </div>
             <Link
               href="/report"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#11382B] hover:underline pt-1"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0B6A3B] hover:underline pt-1"
             >
               Submit Scam Report
               <ArrowRight className="h-3 w-3" />

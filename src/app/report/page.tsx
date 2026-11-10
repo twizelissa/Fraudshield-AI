@@ -110,7 +110,7 @@ export default function ReportPage() {
 
         {!authChecked ? null : !user ? (
           <div className="card-editorial w-full max-w-sm mx-auto rounded-2xl border border-[#E5E0D8] bg-white p-7 shadow-xs space-y-5 text-center animate-scale-in">
-            <Lock className="h-7 w-7 text-[#11382B] mx-auto" />
+            <Lock className="h-7 w-7 text-[#0B6A3B] mx-auto" />
             <div>
               <h2 className="text-base font-bold text-black">Sign in to report</h2>
               <p className="text-xs text-black mt-1 font-medium">
@@ -142,7 +142,7 @@ export default function ReportPage() {
           <form onSubmit={handleSubmit} className="card-editorial bg-white rounded-2xl border border-[#E5E0D8] p-5 sm:p-7 shadow-xs space-y-4 animate-scale-in">
             <div className="flex items-center justify-between gap-3 text-xs text-black font-semibold">
               <span className="truncate">Signed in as {user.email}</span>
-              <button type="button" onClick={handleSignOut} className="text-[#11382B] font-bold hover:underline cursor-pointer shrink-0">
+              <button type="button" onClick={handleSignOut} className="text-[#0B6A3B] font-bold hover:underline cursor-pointer shrink-0">
                 Sign out
               </button>
             </div>
@@ -161,7 +161,7 @@ export default function ReportPage() {
                 value={form.reportedMessage}
                 onChange={handleChange}
                 placeholder="Paste suspicious text email, SMS, or WhatsApp message here..."
-                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-3 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all resize-none leading-relaxed font-sans font-medium"
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-3 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all resize-none leading-relaxed font-sans font-medium"
                 rows={6}
               />
             </div>
@@ -180,7 +180,7 @@ export default function ReportPage() {
                   name="category"
                   value={form.category}
                   onChange={handleChange}
-                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-semibold cursor-pointer"
+                  className="w-full appearance-none rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all font-semibold cursor-pointer"
                 >
                   <option value="" className="bg-white text-black font-medium">Select Category...</option>
                   {scamCategories.map((cat) => (
@@ -207,7 +207,7 @@ export default function ReportPage() {
                 value={form.country}
                 onChange={handleChange}
                 placeholder="e.g. Kenya, USA, Nigeria"
-                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#11382B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#11382B]/10 transition-all font-medium"
+                className="w-full rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] px-3.5 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/50 focus:border-[#0B6A3B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B6A3B]/10 transition-all font-medium"
               />
             </div>
 
